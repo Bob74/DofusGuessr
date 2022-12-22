@@ -19,7 +19,7 @@ class ErrorCode:
     def label(self) -> str:
         return self._label
 
-    def __init__(self, name: str, internal_code: int, http_code:int, label: str):
+    def __init__(self, name: str, internal_code: int, http_code: int, label: str):
         self._name = name
         self._internal_code = internal_code
         self._http_code = http_code
@@ -47,3 +47,5 @@ CLIENT_ID_DOES_NOT_EXISTS = ErrorCode(name='CLIENT_ID_DOES_NOT_EXISTS', internal
 CLIENT_BAD_TOKEN = ErrorCode(name='CLIENT_BAD_TOKEN', internal_code=0x00000402, http_code=500,
                              label="The token is not valid")
 
+GAME_NOT_STARTED = ErrorCode(name='GAME_NOT_STARTED', internal_code=0x00000402, http_code=500,
+                             label="Game is not started")
