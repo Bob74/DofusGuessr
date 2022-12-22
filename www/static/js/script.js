@@ -14,14 +14,14 @@ ws.addEventListener('error', (event) => {
 // Listen for messages
 ws.addEventListener('message', (event) => {
     let message = JSON.parse(event.data);
-    if ('login_id' in message) {
-        console.log('Token received:', message.login_id);
+    if ('client_id' in message) {
+        console.log('Token received:', message.client_id);
 
         let xhr = new XMLHttpRequest();
         xhr.open("PATCH", "/client/action/ready", true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({
-            "login_id": message.login_id
+            "login_id": message.client_id
         }));
 
     } else {

@@ -1,4 +1,5 @@
 import uuid
+from queue import SimpleQueue
 from datetime import datetime, timedelta
 
 
@@ -35,10 +36,6 @@ class Client:
         return self._is_ready
 
     @property
-    def login_id(self) -> str:
-        return self._login_id
-
-    @property
     def host(self) -> str:
         return self._host
 
@@ -46,16 +43,20 @@ class Client:
     def port(self) -> int:
         return self._port
 
+    @property
+    def message_queue(self) -> SimpleQueue:
+        return self._message_queue
+
     def __init__(self, num: int, host: str, port: int):
         self._number = num
         self._id = str(uuid.uuid4())
         self._timestamp_start = datetime.now()
         self._timestamp_stop = None
-        self._login_id = str(uuid.uuid4())
         self._connected = True
         self._is_ready = False
         self._host = host
         self._port = port
+        self._message_queue = SimpleQueue()
 
     def set_ready(self):
         self._is_ready = True
@@ -64,7 +65,7 @@ class Client:
         self._connected = False
         self._timestamp_stop = datetime.now()
 
-    def __str__(self):
+    def info(self) -> str:
         timestamp_start = self.timestamp_start.strftime('%d/%m/%Y %H:%M:%S')
         timestamp_stop = self.timestamp_stop.strftime('%d/%m/%Y %H:%M:%S') if self.timestamp_stop is not None else ''
         return f"Id: {self.id}\n" \
@@ -73,5 +74,7 @@ class Client:
                f"Timestamp duration: {str(self.timestamp_duration)}\n" \
                f"Status: {'connected' if self.is_connected else 'disconnected'}\n" \
                f"Is Ready: {self.is_ready}\n" \
-               f"Login ID: {self.login_id}\n" \
                f"IP and port: {self.host}:{self.port}"
+
+    def __str__(self) -> str:
+        return f"{self.host}:{self.port}"
