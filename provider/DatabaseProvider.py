@@ -10,6 +10,7 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
 
     _sql_select_map_id_at_coordinates = "SELECT id FROM map_data WHERE x = ? AND y = ? AND lvl = ? AND outdoor = ?"
     _sql_select_coordinates_of_map_id = "SELECT x, y FROM map_data WHERE id = ?"
+    _sql_select_all_map_id = "SELECT id FROM map_data"
 
     def __init__(self):
         self._db_connection = sqlite3.connect(str(self._db_file.absolute()), check_same_thread=False)
@@ -23,7 +24,7 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
         result = cursor.fetchone()
         return result[0]
 
-    def get_coordinates_for_map_id(self, map_id: str) -> tuple[int, int]:
+    def get_coordinates_for_map_id(self, map_id: int) -> tuple[int, int]:
         """
         Retourne les coordonnées de la map demandée.
         """
@@ -31,6 +32,17 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
         # cursor.row_factory = lambda *args: dict(zip([d[0] for d in cursor.description], args))
         result = cursor.fetchone()
         return result[0], result[1]
+
+    def get_all_map_id(self) -> list[int]:
+        """
+        Retourne tous les id de map.
+        """
+        cursor = self._db_connection.execute(self._sql_select_all_map_id)
+        # cursor.row_factory = lambda *args: dict(zip([d[0] for d in cursor.description], args))
+        result = list()
+        for row in cursor:
+            result.append(row[0])
+        return result
 
     def __del__(self):
         self._db_connection.close()

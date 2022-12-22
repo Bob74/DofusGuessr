@@ -15,9 +15,26 @@ class GameManager(metaclass=SingletonABCMeta):
         pass
 
     def new_game(self, client: Client):
+        """
+        Créé une nouvelle game pour un client.
+        """
         game_id = str(uuid.uuid4())
         self._GAMES[game_id] = Game(client)
 
-    def get_game_for_client(self):
-        pass
+    def get_game_for_client(self, client: Client) -> None or Client:
+        """
+        Renvoi la game correspondante au client.
+        """
+        for game in self._GAMES.values():
+            if game.client.id == client.id:
+                return game
+        return None
 
+    def get_game_for_client_id(self, client_id: str) -> None or Client:
+        """
+        Renvoi la game correspondante au client.
+        """
+        for game in self._GAMES.values():
+            if game.client.id == client_id:
+                return game
+        return None
