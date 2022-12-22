@@ -24,45 +24,55 @@ class WebsocketProvider:
 
             # Logging du client
             client = ClientManager().create_client(websocket.client.host, websocket.client.port)
-            logging.info(f"[{client.host}:{client.port}] Connexion du client...")
+            logging.info(f"[{client}] Connexion du client...")
 
             # Accepte la connexion entrante
             await websocket.accept()
 
             # On attend 10s max que le websocket soit connecté
             if await self.timeout(10, self.is_websocket_connected, websocket):
-                logging.error(f"[{client.host}:{client.port}] Timeout de la connexion au websocket pour le client :"
-                              f"\n{client}")
+                logging.error(f"[{client}] Timeout de la connexion au websocket pour le client :"
+                              f"\n{client.info()}")
                 client.close()
                 return
-            logging.info(f"[{client.host}:{client.port}] Connexion réussie")
+            logging.info(f"[{client}] Connexion réussie")
 
             # Envoi du token au client
-            logging.info(f"[{client.host}:{client.port}] Envoi du token au client")
-            await websocket.send_json({"login_id": client.login_id})
+            logging.info(f"[{client}] Envoi du token au client")
+            await websocket.send_json({"client_id": client.id})
 
             # On attend la réponse du client par l'API Rest
-            logging.info(f"[{client.host}:{client.port}] En attente de la réponse Rest du client...")
+            logging.info(f"[{client}] En attente de la réponse Rest du client...")
             if await self.timeout(10, self.is_client_ready, client):
-                logging.error(f"[{client.host}:{client.port}] Timeout de la réponse Rest pour le client :"
-                              f"\n{client}")
+                logging.error(f"[{client}] Timeout de la réponse Rest pour le client :"
+                              f"\n{client.info()}")
                 client.close()
                 return
 
-            # While client is connected, we send them the messages
-            logging.info(f"[{client.host}:{client.port}] Démarrage de la boucle de messages")
+            # Tant que le client est connecté, on envoie les messages
+            logging.info(f"[{client}] Démarrage de la boucle de messages")
             while websocket.client_state == websockets.WebSocketState.CONNECTED:
                 try:
-                    # No messages, waiting
+                    # Tant qu'on a des messages dans la queue, on les lit
+                    while not client.message_queue.empty():
+                        # Lecture d'un message
+                        to_send = client.message_queue.get()
+                        logging.debug(f"[WEBSOCKET] Sending '{to_send.msg_type}' message: {to_send.json()}")
+
+                        # Envoi du message au front
+                        await websocket.send_json(to_send.json())
+
+                    # Pas de message, on attend
                     await asyncio.sleep(0.1)
                 except ConnectionClosedOK:
-                    # Client has closed the connection
+                    # Fermeture de la connexion par le client
                     break
                 except ConnectionClosedError:
-                    # Connection has closed due to an error
+                    # Fermeture de la connexion à cause d'une erreur
                     break
 
-            logging.info(f"[{client.host}:{client.port}] Fermeture de la connexion")
+            logging.info(f"[{client}] Fermeture de la connexion")
+            client.close()
             await websocket.close()
 
     @staticmethod
