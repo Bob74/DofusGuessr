@@ -1,3 +1,4 @@
+import logging
 import sqlite3
 from pathlib import Path
 
@@ -10,7 +11,7 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
 
     _sql_select_map_id_at_coordinates = "SELECT id FROM map_data WHERE x = ? AND y = ? AND lvl = ? AND outdoor = ?"
     _sql_select_coordinates_of_map_id = "SELECT x, y FROM map_data WHERE id = ?"
-    _sql_select_all_map_id = "SELECT id FROM map_data"
+    _sql_select_all_map_id = "SELECT id, is_outdoor FROM map_data"
 
     def __init__(self):
         self._db_connection = sqlite3.connect(str(self._db_file.absolute()), check_same_thread=False)
@@ -33,11 +34,15 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
         result = cursor.fetchone()
         return result[0], result[1]
 
-    def get_all_map_id(self) -> list[int]:
+    def get_all_map_id(self, outdoor=None) -> list[int]:
         """
         Retourne tous les id de map.
         """
-        cursor = self._db_connection.execute(self._sql_select_all_map_id)
+        outdoor_condition = str()
+        if outdoor is not None:
+            outdoor_condition = f" WHERE is_outdoor = {str(outdoor).lower()}"
+
+        cursor = self._db_connection.execute(f"{self._sql_select_all_map_id}{outdoor_condition}")
         # cursor.row_factory = lambda *args: dict(zip([d[0] for d in cursor.description], args))
         result = list()
         for row in cursor:

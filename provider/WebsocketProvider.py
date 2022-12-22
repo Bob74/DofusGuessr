@@ -6,6 +6,7 @@ from fastapi import FastAPI, WebSocket
 from starlette import websockets
 from websockets.exceptions import ConnectionClosedOK, ConnectionClosedError
 
+from provider.websocket.messages.GameConnectMessage import GameConnectMessage
 from business.ClientManager import ClientManager
 
 if TYPE_CHECKING:
@@ -39,7 +40,7 @@ class WebsocketProvider:
 
             # Envoi du token au client
             logging.info(f"[{client}] Envoi du token au client")
-            await websocket.send_json({"client_id": client.id})
+            await websocket.send_json(GameConnectMessage(client_id=client.id).json())
 
             # On attend la réponse du client par l'API Rest
             logging.info(f"[{client}] En attente de la réponse Rest du client...")
