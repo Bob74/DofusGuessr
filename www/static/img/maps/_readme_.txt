@@ -1,0 +1,1 @@
+Les fichiers .jpg de map vont ici (tous en vrac dans le dossier)

@@ -1,21 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="ISO-8859-1">
         <title>DofusGuessr</title>
+		<link rel="stylesheet" href="static/css/styles.css"/>
     </head>
     <body>
         <div id="game_container">
-            <div id="picture_container">
-                <img src="https://petitstream.com/images/train.gif"/>
-            </div>
-            <div id="buttons_container">
+            <table id="game_grid">
+                <tr>
+                    <td></td>
+                    <td><input id="button_up" type="button" value="/\"/></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><input id="button_left" type="button" value="<"/></td>
+                    <td>
+                        <img id="map_img" src="https://petitstream.com/images/train.gif" width="854px" height="480px"/>
+                    </td>
+                    <td><input id="button_right" type="button" value=">"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input id="button_down" type="button" value="\/"/></td>
+                    <td><input id="button_back_to_start" type="button" value="Retour au départ"/></td>
+                </tr>
+            </table>
+
+            <div id="guess_container">
                 <div>
-                    <span>X : <input id="input_x" type="text"/></span>
-                    <span>Y : <input id="input_y" type="text"/></span>
+                    <span>X : <input id="field_x" type="text"/></span>
+                    <span>Y : <input id="field_y" type="text"/></span>
                 </div>
                 <div>
-                    <input id="input_submit" type="button" value="Guess"/>
+                    <input id="button_guess" type="button" value="Guess"/>
                 </div>
             </div>
         </div>
