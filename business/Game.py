@@ -61,7 +61,7 @@ class Game:
         self._timestamp_start = datetime.now()
         self._timestamp_stop = None
 
-        self.send_client_message(GameStartMessage(map_file=self.map.filename()))
+        self.send_client_message(GameStartMessage(map_file=self.map.filename(web_path=True)))
 
     def stop(self):
         """

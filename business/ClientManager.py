@@ -27,7 +27,7 @@ class ClientManager(metaclass=SingletonABCMeta):
         Ajoute un nouveau client à la liste.
         """
         client = Client(len(self._CLIENTS.keys()) + 1, host, port)
-        self._CLIENTS[client.login_id] = client
+        self._CLIENTS[client.id] = client
         return client
 
     def get_client_by_token(self, token: str) -> None | Client:
