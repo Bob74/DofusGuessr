@@ -1,13 +1,13 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 import logging
-from typing import TYPE_CHECKING
 import uuid
 import math
 from datetime import datetime, timedelta
 
 from business.Map import Map
-from provider.websocket.messages.GameStartMessage import GameStartMessage
+from provider.websocket.messages.GameUpdateImageMessage import GameUpdateImageMessage
 from provider.websocket.messages.GameEndMessage import GameEndMessage
 
 if TYPE_CHECKING:
@@ -26,6 +26,14 @@ class Game:
     @property
     def client(self) -> Client:
         return self._client
+
+    @property
+    def map_start(self) -> Map:
+        return self._map_start
+
+    @property
+    def map_current(self) -> Map:
+        return self._map_current
 
     @property
     def is_started(self) -> bool:
@@ -54,14 +62,22 @@ class Game:
         self._client = client
 
         # Map à deviner
-        self.map = Map(Map.get_random_map_id())
+        self._level = 0
+        self._is_outdoor = True
+
+        self._map_start = Map(
+            map_id=Map.get_random_map_id(level=self._level, is_outdoor=self._is_outdoor),
+            level=self._level,
+            is_outdoor=self._is_outdoor
+        )
+        self._map_current = self._map_start
 
         # Démarrage de la partie et calcul du temps
         self._is_started = True
         self._timestamp_start = datetime.now()
         self._timestamp_stop = None
 
-        self.send_client_message(GameStartMessage(map_file=self.map.filename(web_path=True)))
+        self.send_client_message(GameUpdateImageMessage(map_file=self.map_start.filename(web_path=True)))
 
     def stop(self):
         """
@@ -93,7 +109,13 @@ class Game:
 
         # Todo : utiliser une fonction logarithmique pour enlever + de points + on est loin
         result = self._MAX_POINTS - (
-            math.fabs(self.map.x) - math.fabs(guess_x) + math.fabs(self.map.y) - math.fabs(guess_y)
+                math.fabs(self.map_start.x) - math.fabs(guess_x) + math.fabs(self.map_start.y) - math.fabs(guess_y)
         ) * 500
 
         return int(sorted((0, result, self._MAX_POINTS))[1])
+
+    def update_current_map(self, map_id):
+        """
+        Met à jour la carte courante avec la position actuelle du joueur.
+        """
+        self._map_current = Map(map_id=map_id, level=self._map_start.level, is_outdoor=self._map_start.is_outdoor)

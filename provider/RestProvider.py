@@ -6,6 +6,7 @@ from business.ClientManager import ClientManager
 from provider.rest.models.ClientActionReadyModel import ClientActionReadyModel
 from provider.rest.models.ClientActionGuessModel import ClientActionGuessModel
 from provider.rest.models.ClientActionMoveModel import ClientActionMoveModel
+from provider.websocket.messages.GameUpdateImageMessage import GameUpdateImageMessage
 from common.ErrorCode import *
 
 
@@ -74,7 +75,26 @@ class RestProvider:
             if not game.is_started:
                 ErrorCode.throw(GAME_NOT_STARTED)
 
-            # Todo : Calculer les coordonnées de destination et gérer le déplacement/envoi de la map au client
-            pass
+            # Calcul des nouvelles coordonnées
+            x = game.map_current.x
+            y = game.map_current.y
+            if model.direction.lower() == 'up':
+                y -= 1
+            elif model.direction.lower() == 'down':
+                y += 1
+            elif model.direction.lower() == 'left':
+                x -= 1
+            elif model.direction.lower() == 'right':
+                x += 1
+
+            # Envoi de la nouvelle image au client
+            new_map_id = game.map_start.get_map_id_at_coordinates(x, y)
+            if new_map_id == -1:
+                ErrorCode.throw(MAP_DOES_NOT_EXISTS)
+
+            game.update_current_map(new_map_id)
+            game.send_client_message(
+                GameUpdateImageMessage(map_file=game.map_current.filename(web_path=True))
+            )
 
             return {'status': 'ok'}
