@@ -42,10 +42,13 @@ class ErrorCode:
 
 
 # Display errors
-CLIENT_ID_DOES_NOT_EXISTS = ErrorCode(name='CLIENT_ID_DOES_NOT_EXISTS', internal_code=0x00000401,
+CLIENT_ID_DOES_NOT_EXISTS = ErrorCode(name='CLIENT_ID_DOES_NOT_EXISTS', internal_code=0x00000101,
                                       http_code=404, label="No client found for this id")
-CLIENT_BAD_TOKEN = ErrorCode(name='CLIENT_BAD_TOKEN', internal_code=0x00000402, http_code=500,
+CLIENT_BAD_TOKEN = ErrorCode(name='CLIENT_BAD_TOKEN', internal_code=0x00000102, http_code=500,
                              label="The token is not valid")
 
-GAME_NOT_STARTED = ErrorCode(name='GAME_NOT_STARTED', internal_code=0x00000402, http_code=500,
+GAME_NOT_STARTED = ErrorCode(name='GAME_NOT_STARTED', internal_code=0x00000201, http_code=500,
                              label="Game is not started")
+
+MAP_DOES_NOT_EXISTS = ErrorCode(name='MAP_DOES_NOT_EXISTS', internal_code=0x00000301, http_code=404,
+                                label="Map does not exists")
