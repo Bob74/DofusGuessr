@@ -16,3 +16,22 @@
     text-align: center;
     font-size: 36pt;
 }
+
+#game_container {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
+
+.dragscroll {
+    position: relative;
+    background-image: url(https://solomonk.fr/img/map%201.29.jpg);
+    background-color: rgb(69, 53, 29);
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 5359px;
+    height: 3869px;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
