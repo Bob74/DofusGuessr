@@ -1,5 +1,4 @@
 import Game from "./game.js";
-import sendRestMessage from "./rest.js";
 
 'use strict';
 
@@ -23,20 +22,17 @@ function setupWebsocket() {
                 case 'GameConnectMessage':
                     // Création de la game
                     game = new Game(message.client_id, "game_container");
-
-                    // Validation de l'API Rest en renvoyant le message
-                    sendRestMessage("PATCH", "/client/action/ready", JSON.stringify({
-                        "client_id": message.client_id
-                    }))
                     break;
-                case 'GameStartMessage':
-                    // Affichage de l'image envoyée
-                    document.getElementById("map_img").src = message.map_file;
+                case 'GameUpdateImageMessage':
+                    // Update de l'image envoyée
+                    game.updateImg(message.map_file);
                     break;
                 case 'GameEndMessage':
-                    game.doEnd(message.score, message.elapsed_time);
+                    // Fin de partie
+                    game.end(message.score, message.elapsed_time);
                     break;
                 default:
+                    // Type de message non reconnu
                     console.error('Malformed message');
             }
         } else {
