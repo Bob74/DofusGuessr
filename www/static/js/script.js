@@ -31,6 +31,10 @@ function setupWebsocket() {
                     // Fin de partie
                     game.end(message.score, message.elapsed_time);
                     break;
+                case 'GameHelpMessage':
+                    // Aide
+                    game.ecriture_aide(message.zone);
+                    break;
                 default:
                     // Type de message non reconnu
                     console.error('Malformed message');

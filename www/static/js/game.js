@@ -5,6 +5,8 @@ import sendRestMessage from "./rest.js";
 export default class Game {
 
     constructor(clientId, gameContainerId) {
+        this.help = false;
+        this.malus = 0;
         this.gameContainerDiv = document.getElementById(gameContainerId);
         this.clientId = clientId;
 
@@ -40,6 +42,14 @@ export default class Game {
     }
 
     end(score, elapsedTime) {
+
+        if (this.help){
+            if (score <= 500){
+                score = 0
+            }else{
+                score = score - this.malus;
+            }
+        }
         let endgameDiv = document.createElement("div");
         endgameDiv.setAttribute("id", "endgame_overlay");
         let p = document.createElement("p");
@@ -49,6 +59,12 @@ export default class Game {
         this.gameContainerDiv.append(
             endgameDiv
         );
+    }
+
+    ecriture_aide(zone){
+        let zone_indice_html = document.getElementById("indice");
+        zone_indice_html.hidden = false;
+        zone_indice_html.innerHTML = `Votre zone de départ est : ${zone}`;
     }
 
     move(direction) {
@@ -65,11 +81,14 @@ export default class Game {
             "y": this.fieldY.value
         }));
     }
+
     indice() {
         if (confirm("Etes-vous sûr de vouloir un indice sur la zone contre une pénalité de 500 points ?")) {
         sendRestMessage("PATCH", "/client/action/help", JSON.stringify({
             "client_id": this.clientId
         }));
+        this.help = true;
+        this.malus += 500;
         } else {
         // the user clicked Cancel, do nothing
         }

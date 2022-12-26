@@ -11,7 +11,7 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
 
     _sql_select_map_id_at_coordinates = "SELECT id FROM map_data WHERE x = ? AND y = ? AND level = ? AND is_outdoor = ?"
     _sql_select_coordinates_of_map_id = "SELECT x, y FROM map_data WHERE id = ?"
-    _sql_select_zone_of_map_id = "SELECT area_name WHERE id = ?"
+    _sql_select_zone_of_map_id = "SELECT area_name FROM map_data WHERE id = ?"
     _sql_select_all_map_id = "SELECT id, is_outdoor FROM map_data WHERE level = ? AND is_outdoor = ?"
 
     def __init__(self):
