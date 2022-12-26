@@ -23,6 +23,9 @@ export default class Game {
         this.buttonGuess = this.gameContainerDiv.querySelector("#button_guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
+        this.buttonIndice = this.gameContainerDiv.querySelector("#button_indice");
+        this.buttonIndice.onclick = this.indice.bind(this);
+
         this.connectClient();
     }
 
@@ -61,5 +64,14 @@ export default class Game {
             "x": this.fieldX.value,
             "y": this.fieldY.value
         }));
+    }
+    indice() {
+        if (confirm("Etes-vous sûr de vouloir un indice sur la zone contre une pénalité de 500 points ?")) {
+        sendRestMessage("PATCH", "/client/action/help", JSON.stringify({
+            "client_id": this.clientId
+        }));
+        } else {
+        // the user clicked Cancel, do nothing
+        }
     }
 }

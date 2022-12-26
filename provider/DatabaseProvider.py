@@ -11,6 +11,7 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
 
     _sql_select_map_id_at_coordinates = "SELECT id FROM map_data WHERE x = ? AND y = ? AND level = ? AND is_outdoor = ?"
     _sql_select_coordinates_of_map_id = "SELECT x, y FROM map_data WHERE id = ?"
+    _sql_select_zone_of_map_id = "SELECT area_name WHERE id = ?"
     _sql_select_all_map_id = "SELECT id, is_outdoor FROM map_data WHERE level = ? AND is_outdoor = ?"
 
     def __init__(self):
@@ -50,6 +51,14 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
         for row in cursor:
             result.append(row[0])
         return result
+
+    def get_area_map(self, map_id: int) -> str:
+        """
+        Retourne la zone de la map
+        """
+        cursor = self._db_connection.execute(self._sql_select_zone_of_map_id, (map_id,))
+        result = cursor.fetchone()
+        return result[0]
 
     def __del__(self):
         self._db_connection.close()

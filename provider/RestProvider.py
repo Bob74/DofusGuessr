@@ -6,6 +6,7 @@ from business.ClientManager import ClientManager
 from provider.rest.models.ClientActionReadyModel import ClientActionReadyModel
 from provider.rest.models.ClientActionGuessModel import ClientActionGuessModel
 from provider.rest.models.ClientActionMoveModel import ClientActionMoveModel
+from provider.websocket.messages.GameHelpMessage import GameHelpMessage
 from provider.websocket.messages.GameUpdateImageMessage import GameUpdateImageMessage
 from common.ErrorCode import *
 
@@ -20,6 +21,7 @@ class RestProvider:
         self.__client_action_ready()
         self.__client_guess()
         self.__client_move()
+        self.__client_help()
         logging.info("[REST] Tous les endpoints sont enregistrés")
 
     def __client_action_ready(self):
@@ -97,4 +99,25 @@ class RestProvider:
                 GameUpdateImageMessage(map_file=game.map_current.filename(web_path=True))
             )
 
+            return {'status': 'ok'}
+
+    def __client_help(self):
+        """
+        Appelé par le client Web lorsqu'il demande un indice.
+        """
+        logging.info("Help")
+        @self.__app.patch("/client/action/help")
+        async def action(model: ClientActionGuessModel, _: Request):
+
+            if not ClientManager().does_client_token_exists(model.client_id):
+                ErrorCode.throw(CLIENT_BAD_TOKEN)
+
+            client = ClientManager().get_client_by_token(model.client_id)
+            game = GameManager().get_game_for_client(client)
+
+            zone = game.map_start.get_zone_map()
+            logging.info(zone)
+            game.send_client_message(
+                GameHelpMessage(zone=zone)
+            )
             return {'status': 'ok'}

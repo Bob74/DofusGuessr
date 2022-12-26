@@ -77,3 +77,7 @@ class Map:
                 return f"{'/'.join(G_MAP_FILE_PATH.parts[1:])}/{found_files[0].name}"
             else:
                 return found_files[0].name
+
+    def get_zone_map(self):
+        zone = DatabaseProvider().get_area_map(map_id=self._id)
+        return zone
