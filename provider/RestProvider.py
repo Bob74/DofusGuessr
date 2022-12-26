@@ -6,8 +6,9 @@ from business.ClientManager import ClientManager
 from provider.rest.models.ClientActionReadyModel import ClientActionReadyModel
 from provider.rest.models.ClientActionGuessModel import ClientActionGuessModel
 from provider.rest.models.ClientActionMoveModel import ClientActionMoveModel
-from provider.websocket.messages.GameHelpMessage import GameHelpMessage
+from provider.rest.models.ClientActionHintModel import ClientActionHintModel
 from provider.websocket.messages.GameUpdateImageMessage import GameUpdateImageMessage
+from provider.websocket.messages.GameHelpMessage import GameHelpMessage
 from common.ErrorCode import *
 
 
@@ -105,9 +106,8 @@ class RestProvider:
         """
         Appelé par le client Web lorsqu'il demande un indice.
         """
-        logging.info("Help")
         @self.__app.patch("/client/action/help")
-        async def action(model: ClientActionGuessModel, _: Request):
+        async def action(model: ClientActionHintModel, _: Request):
 
             if not ClientManager().does_client_token_exists(model.client_id):
                 ErrorCode.throw(CLIENT_BAD_TOKEN)
@@ -121,3 +121,4 @@ class RestProvider:
                 GameHelpMessage(zone=zone)
             )
             return {'status': 'ok'}
+        

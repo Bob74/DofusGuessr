@@ -35,6 +35,8 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
         cursor = self._db_connection.execute(self._sql_select_coordinates_of_map_id, (map_id, ))
         # cursor.row_factory = lambda *args: dict(zip([d[0] for d in cursor.description], args))
         result = cursor.fetchone()
+        if result is None:
+            return -255, -255
         return result[0], result[1]
 
     def get_all_map_id(self, level: int = 0, is_outdoor: bool = True) -> list[int]:
@@ -58,6 +60,8 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
         """
         cursor = self._db_connection.execute(self._sql_select_zone_of_map_id, (map_id,))
         result = cursor.fetchone()
+        if result is None:
+            return str()
         return result[0]
 
     def __del__(self):
