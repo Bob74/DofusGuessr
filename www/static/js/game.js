@@ -7,9 +7,6 @@ import Hints from "./hints.js";
 export default class Game {
 
     constructor(clientId, gameContainerId) {
-        this.help = false;
-        this.malus = 0;
-
         this.clientId = clientId;
         this.gameContainer = document.getElementById(gameContainerId);
         this.hints = new Hints(this.clientId, this.gameContainer, "hints-container");
@@ -43,11 +40,6 @@ export default class Game {
     }
 
     end(score, elapsedTime) {
-        score = score - this.malus;
-        if (score <= 500){
-            score = 0
-        }
-
         let endgameDiv = document.createElement("div");
         endgameDiv.setAttribute("id", "endgame-overlay");
         let p = document.createElement("p");
@@ -78,7 +70,6 @@ export default class Game {
 
     askAreaNameHint() {
         this.hints.askAreaName();
-        this.malus += 500;
     }
 
     showAreaNameHint(areaName) {
