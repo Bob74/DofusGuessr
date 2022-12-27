@@ -5,6 +5,18 @@ import Game from "./game.js";
 let ws;
 let game;
 
+let div_targeted = document.getElementById('guess_container');
+div_targeted.addEventListener('mouseover', function(){
+    document.body.classList.remove('dragscroll');
+    dragscroll.reset()
+});
+
+div_targeted.addEventListener('mouseout', function(){
+    document.body.classList.add('dragscroll');
+    dragscroll.reset()
+});
+
+
 function setupWebsocket() {
     ws = new WebSocket("ws://127.0.0.1:8090/ws");
 
