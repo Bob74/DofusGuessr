@@ -23,6 +23,10 @@
     left: 10px;
 }
 
+#game-container:hover {
+    opacity: 0.6;
+}
+
 #guess-container{
     display: inline-block;
 }

@@ -16,15 +16,15 @@ divTargeted.addEventListener('mouseout', function(){
     dragscroll.reset()
 });
 
-let divGameGrid = document.getElementById('map-img');
-divGameGrid.addEventListener('mouseover', function(){
-    console.log('In');
-    divGameGrid.style.opacity = "1";
-});
-divGameGrid.addEventListener('mouseout', function(){
-    console.log('Out');
-    divGameGrid.style.opacity = "0.6";
-});
+// let divGameGrid = document.getElementById('game-container');
+// divGameGrid.addEventListener('mouseover', function(){
+//     console.log('In');
+//     divGameGrid.style.opacity = "1";
+// });
+// divGameGrid.addEventListener('mouseout', function(){
+//     console.log('Out');
+//     divGameGrid.style.opacity = "0.6";
+// });
 
 function setupWebsocket() {
     ws = new WebSocket("ws://127.0.0.1:8090/ws");
