@@ -114,6 +114,7 @@ class RestProvider:
 
             client = ClientManager().get_client_by_token(model.client_id)
             game = GameManager().get_game_for_client(client)
+            game.penalty += 500
 
             game.send_client_message(
                 GameHintAreaMessage(area_name=game.map_start.area.name)
