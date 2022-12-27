@@ -5,7 +5,7 @@ import Game from "./game.js";
 let ws;
 let game;
 
-let div_targeted = document.getElementById('guess_container');
+let div_targeted = document.getElementById('guess-container');
 div_targeted.addEventListener('mouseover', function(){
     document.body.classList.remove('dragscroll');
     dragscroll.reset()
@@ -33,7 +33,7 @@ function setupWebsocket() {
             switch (message.msg_type) {
                 case 'GameConnectMessage':
                     // Création de la game
-                    game = new Game(message.client_id, "game_container");
+                    game = new Game(message.client_id, "game-container");
                     break;
                 case 'GameUpdateImageMessage':
                     // Update de l'image envoyée
@@ -43,9 +43,9 @@ function setupWebsocket() {
                     // Fin de partie
                     game.end(message.score, message.elapsed_time);
                     break;
-                case 'GameHelpMessage':
-                    // Aide
-                    game.showAreaNameHint(message.zone);
+                case 'GameHintAreaMessage':
+                    // Indice : Nom de la zone
+                    game.showAreaNameHint(message.area_name);
                     break;
                 default:
                     // Type de message non reconnu

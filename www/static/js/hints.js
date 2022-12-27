@@ -8,9 +8,9 @@ export default class Hints {
         this.gameContainer = gameContainer;
         this.hintsContainer = this.gameContainer.querySelector(`#${hintsContainerId}`);
 
-        this.areaNameEndpoint = "/client/help/action/area"
+        this.areaNameEndpoint = "/client/hint/action/area"
 
-        this.buttonHint = this.gameContainer.querySelector("#button_hint");
+        this.buttonHint = this.gameContainer.querySelector("#button-hint");
 
         this.isAreaNameEnabled = false;
     }

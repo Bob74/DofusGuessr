@@ -12,21 +12,21 @@ export default class Game {
 
         this.clientId = clientId;
         this.gameContainer = document.getElementById(gameContainerId);
-        this.hints = new Hints(this.clientId, this.gameContainer, "hintsContainer");
+        this.hints = new Hints(this.clientId, this.gameContainer, "hints-container");
         
-        this.buttonUp = this.gameContainer.querySelector("#button_up");
+        this.buttonUp = this.gameContainer.querySelector("#button-up");
         this.buttonUp.onclick = this.move.bind(this, "up");
-        this.buttonDown = this.gameContainer.querySelector("#button_down");
+        this.buttonDown = this.gameContainer.querySelector("#button-down");
         this.buttonDown.onclick = this.move.bind(this, "down");
-        this.buttonLeft = this.gameContainer.querySelector("#button_left");
+        this.buttonLeft = this.gameContainer.querySelector("#button-left");
         this.buttonLeft.onclick = this.move.bind(this, "left");
-        this.buttonRight = this.gameContainer.querySelector("#button_right");
+        this.buttonRight = this.gameContainer.querySelector("#button-right");
         this.buttonRight.onclick = this.move.bind(this, "right");
 
-        this.buttonGuess = this.gameContainer.querySelector("#button_guess");
+        this.buttonGuess = this.gameContainer.querySelector("#button-guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
-        this.buttonHint = this.gameContainer.querySelector("#button_hint");
+        this.buttonHint = this.gameContainer.querySelector("#button-hint");
         this.buttonHint.onclick = this.askAreaNameHint.bind(this);
 
         this.connectClient();
@@ -39,7 +39,7 @@ export default class Game {
     }
 
     updateImg(imgPath) {
-        this.gameContainer.querySelector("#map_img").src = imgPath;
+        this.gameContainer.querySelector("#map-img").src = imgPath;
     }
 
     end(score, elapsedTime) {
@@ -49,7 +49,7 @@ export default class Game {
         }
 
         let endgameDiv = document.createElement("div");
-        endgameDiv.setAttribute("id", "endgame_overlay");
+        endgameDiv.setAttribute("id", "endgame-overlay");
         let p = document.createElement("p");
         p.innerHTML = `Score final : ${score} (${elapsedTime})`;
 
@@ -67,8 +67,8 @@ export default class Game {
     }
 
     guess() {
-        const fieldX = this.gameContainer.querySelector("#field_x").value;
-        const fieldY = this.gameContainer.querySelector("#field_y").value;
+        const fieldX = this.gameContainer.querySelector("#field-x").value;
+        const fieldY = this.gameContainer.querySelector("#field-y").value;
         sendRestMessage("PATCH", "/client/action/guess", JSON.stringify({
             "client_id": this.clientId,
             "x": fieldX,

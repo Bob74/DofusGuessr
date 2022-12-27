@@ -1,3 +1,4 @@
+from __future__ import annotations
 from fastapi import HTTPException
 
 
@@ -29,7 +30,7 @@ class ErrorCode:
         return f"{self.name} ({self.internal_code}) - {self.label}"
 
     @staticmethod
-    def throw(error_code: 'ErrorCode'):
+    def throw(error_code: ErrorCode):
         """
         Throw a HTTPException using this ErrorCode details.
         """

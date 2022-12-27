@@ -1,29 +1,29 @@
 
-#game_grid {
+#game-grid {
     text-align: center;
 }
 
-#endgame_overlay {
+#endgame-overlay {
   width: 100%;
   height: 100%;
   position:absolute;
   top: 50%;
 }
 
-#endgame_overlay > p {
+#endgame-overlay > p {
     color: #FFF;
     background-color: #000000C0;
     text-align: center;
     font-size: 36pt;
 }
 
-#game_container {
+#game-container {
     position: fixed;
     bottom: 10px;
     left: 10px;
 }
 
-#guess_container{
+#guess-container{
     display: inline-block;
 }
 
