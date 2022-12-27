@@ -5,25 +5,25 @@ import Game from "./game.js";
 let ws;
 let game;
 
-let div_targeted = document.getElementById('guess-container');
-div_targeted.addEventListener('mouseover', function(){
+let divTargeted = document.getElementById('guess-container');
+divTargeted.addEventListener('mouseover', function(){
     document.body.classList.remove('dragscroll');
     dragscroll.reset()
 });
 
-div_targeted.addEventListener('mouseout', function(){
+divTargeted.addEventListener('mouseout', function(){
     document.body.classList.add('dragscroll');
     dragscroll.reset()
 });
 
-let div_game_grid = document.getElementById('map_img');
-div_game_grid.addEventListener('mouseover', function(){
+let divGameGrid = document.getElementById('map-img');
+divGameGrid.addEventListener('mouseover', function(){
     console.log('In');
-    div_game_grid.style.opacity = "1";
+    divGameGrid.style.opacity = "1";
 });
-div_game_grid.addEventListener('mouseout', function(){
+divGameGrid.addEventListener('mouseout', function(){
     console.log('Out');
-    div_game_grid.style.opacity = "0.6";
+    divGameGrid.style.opacity = "0.6";
 });
 
 function setupWebsocket() {
