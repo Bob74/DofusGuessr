@@ -1,4 +1,6 @@
 import sendRestMessage from "./rest.js";
+import Hints from "./hints.js";
+
 
 'use strict';
 
@@ -7,23 +9,25 @@ export default class Game {
     constructor(clientId, gameContainerId) {
         this.help = false;
         this.malus = 0;
-        this.gameContainerDiv = document.getElementById(gameContainerId);
-        this.clientId = clientId;
 
-        this.buttonUp = this.gameContainerDiv.querySelector("#button_up");
+        this.clientId = clientId;
+        this.gameContainer = document.getElementById(gameContainerId);
+        this.hints = new Hints(this.clientId, this.gameContainer, "hintsContainer");
+        
+        this.buttonUp = this.gameContainer.querySelector("#button_up");
         this.buttonUp.onclick = this.move.bind(this, "up");
-        this.buttonDown = this.gameContainerDiv.querySelector("#button_down");
+        this.buttonDown = this.gameContainer.querySelector("#button_down");
         this.buttonDown.onclick = this.move.bind(this, "down");
-        this.buttonLeft = this.gameContainerDiv.querySelector("#button_left");
+        this.buttonLeft = this.gameContainer.querySelector("#button_left");
         this.buttonLeft.onclick = this.move.bind(this, "left");
-        this.buttonRight = this.gameContainerDiv.querySelector("#button_right");
+        this.buttonRight = this.gameContainer.querySelector("#button_right");
         this.buttonRight.onclick = this.move.bind(this, "right");
 
-        this.buttonGuess = this.gameContainerDiv.querySelector("#button_guess");
+        this.buttonGuess = this.gameContainer.querySelector("#button_guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
-        this.buttonHint = this.gameContainerDiv.querySelector("#button_hint");
-        this.buttonHint.onclick = this.showHintMessagebox.bind(this);
+        this.buttonHint = this.gameContainer.querySelector("#button_hint");
+        this.buttonHint.onclick = this.askAreaNameHint.bind(this);
 
         this.connectClient();
     }
@@ -35,33 +39,24 @@ export default class Game {
     }
 
     updateImg(imgPath) {
-        this.gameContainerDiv.querySelector("#map_img").src = imgPath;
+        this.gameContainer.querySelector("#map_img").src = imgPath;
     }
 
     end(score, elapsedTime) {
-
-        if (this.help){
-            if (score <= 500){
-                score = 0
-            }else{
-                score = score - this.malus;
-            }
+        score = score - this.malus;
+        if (score <= 500){
+            score = 0
         }
+
         let endgameDiv = document.createElement("div");
         endgameDiv.setAttribute("id", "endgame_overlay");
         let p = document.createElement("p");
         p.innerHTML = `Score final : ${score} (${elapsedTime})`;
 
         endgameDiv.append(p);
-        this.gameContainerDiv.append(
+        this.gameContainer.append(
             endgameDiv
         );
-    }
-
-    showHint(zone){
-        const area_name = this.gameContainerDiv.querySelector("#hint");
-        area_name.hidden = false;
-        area_name.innerHTML = `Votre zone de départ est : ${zone}`;
     }
 
     move(direction) {
@@ -72,8 +67,8 @@ export default class Game {
     }
 
     guess() {
-        const fieldX = this.gameContainerDiv.querySelector("#field_x").value;
-        const fieldY = this.gameContainerDiv.querySelector("#field_y").value;
+        const fieldX = this.gameContainer.querySelector("#field_x").value;
+        const fieldY = this.gameContainer.querySelector("#field_y").value;
         sendRestMessage("PATCH", "/client/action/guess", JSON.stringify({
             "client_id": this.clientId,
             "x": fieldX,
@@ -81,13 +76,13 @@ export default class Game {
         }));
     }
 
-    showHintMessagebox() {
-        if (confirm("Etes-vous sûr de vouloir un indice sur la zone contre une pénalité de 500 points ?")) {
-            sendRestMessage("PATCH", "/client/help/action/area", JSON.stringify({
-                "client_id": this.clientId
-            }));
-            this.help = true;
-            this.malus += 500;
-        }
+    askAreaNameHint() {
+        this.hints.askAreaName();
+        this.malus += 500;
     }
+
+    showAreaNameHint(areaName) {
+        this.hints.showAreaName(areaName);
+    }
+
 }

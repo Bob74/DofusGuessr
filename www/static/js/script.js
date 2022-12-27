@@ -45,7 +45,7 @@ function setupWebsocket() {
                     break;
                 case 'GameHelpMessage':
                     // Aide
-                    game.showHint(message.zone);
+                    game.showAreaNameHint(message.zone);
                     break;
                 default:
                     // Type de message non reconnu
