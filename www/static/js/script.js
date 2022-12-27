@@ -16,6 +16,15 @@ div_targeted.addEventListener('mouseout', function(){
     dragscroll.reset()
 });
 
+let div_game_grid = document.getElementById('map_img');
+div_game_grid.addEventListener('mouseover', function(){
+    console.log('In');
+    div_game_grid.style.opacity = "1";
+});
+div_game_grid.addEventListener('mouseout', function(){
+    console.log('Out');
+    div_game_grid.style.opacity = "0.6";
+});
 
 function setupWebsocket() {
     ws = new WebSocket("ws://127.0.0.1:8090/ws");
