@@ -1,27 +1,33 @@
 import sendRestMessage from "./rest.js";
+import Hints from "./hints.js";
+
 
 'use strict';
 
 export default class Game {
 
     constructor(clientId, gameContainerId) {
-        this.gameContainerDiv = document.getElementById(gameContainerId);
+        this.help = false;
+        this.malus = 0;
+
         this.clientId = clientId;
-
-        this.fieldX = this.gameContainerDiv.querySelector("#field_x");
-        this.fieldY = this.gameContainerDiv.querySelector("#field_y");
-
-        this.buttonUp = this.gameContainerDiv.querySelector("#button_up");
+        this.gameContainer = document.getElementById(gameContainerId);
+        this.hints = new Hints(this.clientId, this.gameContainer, "hints-container");
+        
+        this.buttonUp = this.gameContainer.querySelector("#button-up");
         this.buttonUp.onclick = this.move.bind(this, "up");
-        this.buttonDown = this.gameContainerDiv.querySelector("#button_down");
+        this.buttonDown = this.gameContainer.querySelector("#button-down");
         this.buttonDown.onclick = this.move.bind(this, "down");
-        this.buttonLeft = this.gameContainerDiv.querySelector("#button_left");
+        this.buttonLeft = this.gameContainer.querySelector("#button-left");
         this.buttonLeft.onclick = this.move.bind(this, "left");
-        this.buttonRight = this.gameContainerDiv.querySelector("#button_right");
+        this.buttonRight = this.gameContainer.querySelector("#button-right");
         this.buttonRight.onclick = this.move.bind(this, "right");
 
-        this.buttonGuess = this.gameContainerDiv.querySelector("#button_guess");
+        this.buttonGuess = this.gameContainer.querySelector("#button-guess");
         this.buttonGuess.onclick = this.guess.bind(this);
+
+        this.buttonHint = this.gameContainer.querySelector("#button-hint");
+        this.buttonHint.onclick = this.askAreaNameHint.bind(this);
 
         this.connectClient();
     }
@@ -33,17 +39,22 @@ export default class Game {
     }
 
     updateImg(imgPath) {
-        this.gameContainerDiv.querySelector("#map_img").src = imgPath;
+        this.gameContainer.querySelector("#map-img").src = imgPath;
     }
 
     end(score, elapsedTime) {
+        score = score - this.malus;
+        if (score <= 500){
+            score = 0
+        }
+
         let endgameDiv = document.createElement("div");
-        endgameDiv.setAttribute("id", "endgame_overlay");
+        endgameDiv.setAttribute("id", "endgame-overlay");
         let p = document.createElement("p");
         p.innerHTML = `Score final : ${score} (${elapsedTime})`;
 
         endgameDiv.append(p);
-        this.gameContainerDiv.append(
+        this.gameContainer.append(
             endgameDiv
         );
     }
@@ -56,10 +67,22 @@ export default class Game {
     }
 
     guess() {
+        const fieldX = this.gameContainer.querySelector("#field-x").value;
+        const fieldY = this.gameContainer.querySelector("#field-y").value;
         sendRestMessage("PATCH", "/client/action/guess", JSON.stringify({
             "client_id": this.clientId,
-            "x": this.fieldX.value,
-            "y": this.fieldY.value
+            "x": fieldX,
+            "y": fieldY
         }));
     }
+
+    askAreaNameHint() {
+        this.hints.askAreaName();
+        this.malus += 500;
+    }
+
+    showAreaNameHint(areaName) {
+        this.hints.showAreaName(areaName);
+    }
+
 }

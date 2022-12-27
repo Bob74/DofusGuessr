@@ -22,7 +22,7 @@ origins = [
     "http://localhost",
     "http://localhost:8090",
     "http://127.0.0.1",
-    "http://127.0.0.1:8090",
+    "http://127.0.0.1:8090"
 ]
 
 app.add_middleware(
@@ -30,7 +30,7 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=False,
     allow_methods=["PATCH"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 
@@ -38,4 +38,3 @@ app.add_middleware(
 async def startup() -> None:
     provider_manager = ProviderManager(app)
     provider_manager.start_all()
-

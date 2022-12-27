@@ -5,6 +5,18 @@ import Game from "./game.js";
 let ws;
 let game;
 
+let div_targeted = document.getElementById('guess-container');
+div_targeted.addEventListener('mouseover', function(){
+    document.body.classList.remove('dragscroll');
+    dragscroll.reset()
+});
+
+div_targeted.addEventListener('mouseout', function(){
+    document.body.classList.add('dragscroll');
+    dragscroll.reset()
+});
+
+
 function setupWebsocket() {
     ws = new WebSocket("ws://127.0.0.1:8090/ws");
 
@@ -21,7 +33,7 @@ function setupWebsocket() {
             switch (message.msg_type) {
                 case 'GameConnectMessage':
                     // Création de la game
-                    game = new Game(message.client_id, "game_container");
+                    game = new Game(message.client_id, "game-container");
                     break;
                 case 'GameUpdateImageMessage':
                     // Update de l'image envoyée
@@ -30,6 +42,10 @@ function setupWebsocket() {
                 case 'GameEndMessage':
                     // Fin de partie
                     game.end(message.score, message.elapsed_time);
+                    break;
+                case 'GameHintAreaMessage':
+                    // Indice : Nom de la zone
+                    game.showAreaNameHint(message.area_name);
                     break;
                 default:
                     // Type de message non reconnu

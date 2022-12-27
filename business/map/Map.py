@@ -1,8 +1,8 @@
-from __future__ import annotations
 import logging
 from random import Random
 from pathlib import Path
 
+from business.map.Area import Area
 from provider.DatabaseProvider import DatabaseProvider
 
 
@@ -37,11 +37,16 @@ class Map:
     def y(self) -> int:
         return self._y
 
+    @property
+    def area(self) -> Area:
+        return self._area
+
     def __init__(self, map_id: int, level: int, is_outdoor: bool):
         self._id: int = map_id
         self._level = level
         self._is_outdoor = is_outdoor
-        self._x, self._y = DatabaseProvider().get_coordinates_for_map_id(self.id)
+        self._x, self._y = DatabaseProvider().get_coordinates_from_map_id(self.id)
+        self._area = DatabaseProvider().get_area_from_map(self)
         logging.debug(f"[MAP] {map_id=} X:{self._x} Y:{self._y}")
 
     def get_map_id_at_coordinates(self, x: int, y: int) -> int:
