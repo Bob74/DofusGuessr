@@ -10,9 +10,6 @@ export default class Game {
         this.gameContainerDiv = document.getElementById(gameContainerId);
         this.clientId = clientId;
 
-        this.fieldX = this.gameContainerDiv.querySelector("#field_x");
-        this.fieldY = this.gameContainerDiv.querySelector("#field_y");
-
         this.buttonUp = this.gameContainerDiv.querySelector("#button_up");
         this.buttonUp.onclick = this.move.bind(this, "up");
         this.buttonDown = this.gameContainerDiv.querySelector("#button_down");
@@ -25,8 +22,8 @@ export default class Game {
         this.buttonGuess = this.gameContainerDiv.querySelector("#button_guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
-        this.buttonIndice = this.gameContainerDiv.querySelector("#button_indice");
-        this.buttonIndice.onclick = this.indice.bind(this);
+        this.buttonHint = this.gameContainerDiv.querySelector("#button_hint");
+        this.buttonHint.onclick = this.showHintMessagebox.bind(this);
 
         this.connectClient();
     }
@@ -61,10 +58,10 @@ export default class Game {
         );
     }
 
-    ecriture_aide(zone){
-        let zone_indice_html = document.getElementById("indice");
-        zone_indice_html.hidden = false;
-        zone_indice_html.innerHTML = `Votre zone de départ est : ${zone}`;
+    showHint(zone){
+        const area_name = this.gameContainerDiv.querySelector("#hint");
+        area_name.hidden = false;
+        area_name.innerHTML = `Votre zone de départ est : ${zone}`;
     }
 
     move(direction) {
@@ -75,22 +72,22 @@ export default class Game {
     }
 
     guess() {
+        const fieldX = this.gameContainerDiv.querySelector("#field_x").value;
+        const fieldY = this.gameContainerDiv.querySelector("#field_y").value;
         sendRestMessage("PATCH", "/client/action/guess", JSON.stringify({
             "client_id": this.clientId,
-            "x": this.fieldX.value,
-            "y": this.fieldY.value
+            "x": fieldX,
+            "y": fieldY
         }));
     }
 
-    indice() {
+    showHintMessagebox() {
         if (confirm("Etes-vous sûr de vouloir un indice sur la zone contre une pénalité de 500 points ?")) {
-        sendRestMessage("PATCH", "/client/action/help", JSON.stringify({
-            "client_id": this.clientId
-        }));
-        this.help = true;
-        this.malus += 500;
-        } else {
-        // the user clicked Cancel, do nothing
+            sendRestMessage("PATCH", "/client/help/action/area", JSON.stringify({
+                "client_id": this.clientId
+            }));
+            this.help = true;
+            this.malus += 500;
         }
     }
 }

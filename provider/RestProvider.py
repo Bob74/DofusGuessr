@@ -106,7 +106,7 @@ class RestProvider:
         """
         Appelé par le client Web lorsqu'il demande un indice.
         """
-        @self.__app.patch("/client/action/help")
+        @self.__app.patch("/client/help/action/area")
         async def action(model: ClientActionHintModel, _: Request):
 
             if not ClientManager().does_client_token_exists(model.client_id):
@@ -116,9 +116,10 @@ class RestProvider:
             game = GameManager().get_game_for_client(client)
 
             zone = game.map_start.get_zone_map()
-            logging.info(zone)
+            logging.debug(zone)
             game.send_client_message(
                 GameHelpMessage(zone=zone)
             )
+
             return {'status': 'ok'}
         

@@ -79,5 +79,5 @@ class Map:
                 return found_files[0].name
 
     def get_zone_map(self):
-        zone = DatabaseProvider().get_area_map(map_id=self._id)
+        zone = DatabaseProvider().get_area_name_of_map_id(map_id=self._id)
         return zone
