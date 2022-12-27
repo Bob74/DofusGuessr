@@ -6,7 +6,7 @@ import uuid
 import math
 from datetime import datetime, timedelta
 
-from business.Map import Map
+from business.map.Map import Map
 from provider.websocket.messages.GameUpdateImageMessage import GameUpdateImageMessage
 from provider.websocket.messages.GameEndMessage import GameEndMessage
 
@@ -54,6 +54,14 @@ class Game:
         else:
             return self.timestamp_stop - self.timestamp_start
 
+    @property
+    def penalty(self) -> int:
+        return self._penalty
+
+    @penalty.setter
+    def penalty(self, value) -> None:
+        self._penalty += value
+
     def __init__(self, client: Client):
         # ID de la partie
         self._id = str(uuid.uuid4())
@@ -72,10 +80,13 @@ class Game:
         )
         self._map_current = self._map_start
 
-        # Démarrage de la partie et calcul du temps
+        # Démarrage de la partie
         self._is_started = True
+
+        # Statistics de la partie
         self._timestamp_start = datetime.now()
         self._timestamp_stop = None
+        self._penalty = 0
 
         self.send_client_message(GameUpdateImageMessage(map_file=self.map_start.filename(web_path=True)))
 
@@ -112,7 +123,7 @@ class Game:
                 math.fabs(self.map_start.x) - math.fabs(guess_x) + math.fabs(self.map_start.y) - math.fabs(guess_y)
         ) * 50
 
-        return int(sorted((0, result, self._MAX_POINTS))[1])
+        return int(sorted((0, result, self._MAX_POINTS))[1]) - self.penalty
 
     def update_current_map(self, map_id):
         """

@@ -1,8 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 import logging
 import sqlite3
 from pathlib import Path
 
 from common.Singleton import SingletonABCMeta
+
+if TYPE_CHECKING:
+    from business.map.SubArea import SubArea
+    from business.map.Map import Map
+    from business.map.Area import Area
 
 
 class DatabaseProvider(metaclass=SingletonABCMeta):
@@ -10,8 +17,11 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
     _db_file: Path = Path("data", "db", "dofus_map.db")
 
     _sql_select_map_id_at_coordinates = "SELECT id FROM map_data WHERE x = ? AND y = ? AND level = ? AND is_outdoor = ?"
-    _sql_select_coordinates_of_map_id = "SELECT x, y FROM map_data WHERE id = ?"
-    _sql_select_area_name_of_map_id = "SELECT area_name FROM map_data WHERE id = ?"
+    _sql_select_coordinates_from_map_id = "SELECT x, y FROM map_data WHERE id = ?"
+    _sql_select_area_from_map_id = "SELECT area_id, area_name FROM map_data WHERE id = ?"
+
+    # Todo : a tester s'il faut lier avec area_id ou map_id
+    _sql_select_subarea_from_area_id = "SELECT subarea_id, subarea_name FROM map_data WHERE area_id = ?"
     _sql_select_all_map_id = "SELECT id, is_outdoor FROM map_data WHERE level = ? AND is_outdoor = ?"
 
     def __init__(self):
@@ -28,11 +38,11 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
             return -1
         return result[0]
 
-    def get_coordinates_for_map_id(self, map_id: int) -> tuple[int, int]:
+    def get_coordinates_from_map_id(self, map_id: int) -> tuple[int, int]:
         """
         Retourne les coordonnées de la map demandée.
         """
-        cursor = self._db_connection.execute(self._sql_select_coordinates_of_map_id, (map_id, ))
+        cursor = self._db_connection.execute(self._sql_select_coordinates_from_map_id, (map_id,))
         # cursor.row_factory = lambda *args: dict(zip([d[0] for d in cursor.description], args))
         result = cursor.fetchone()
         if result is None:
@@ -54,15 +64,29 @@ class DatabaseProvider(metaclass=SingletonABCMeta):
             result.append(row[0])
         return result
 
-    def get_area_name_of_map_id(self, map_id: int) -> str:
+    def get_area_from_map(self, game_map: Map) -> Area | None:
         """
-        Retourne le nom de la zone de la map.
+        Retourne la zone de la map.
         """
-        cursor = self._db_connection.execute(self._sql_select_area_name_of_map_id, (map_id,))
+        from business.map.Area import Area
+
+        cursor = self._db_connection.execute(self._sql_select_area_from_map_id, (game_map.id,))
         result = cursor.fetchone()
         if result is None:
-            return str()
-        return result[0]
+            return None
+        return Area(parent_map=game_map, area_id=result[0], area_name=result[1])
+
+    def get_subarea_from_area(self, area: Area) -> SubArea | None:
+        """
+        Retourne la sous-zone de la zone.
+        """
+        from business.map.SubArea import SubArea
+
+        cursor = self._db_connection.execute(self._sql_select_subarea_from_area_id, (area.id,))
+        result = cursor.fetchone()
+        if result is None:
+            return None
+        return SubArea(parent_area=area, subarea_id=result[0], subarea_name=result[1])
 
     def __del__(self):
         self._db_connection.close()
