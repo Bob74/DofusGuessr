@@ -1,0 +1,18 @@
+:root {
+    --body-bg-image-url: url(https://solomonk.fr/img/map%201.29.jpg);
+    --body-bg-image-width: 5359px;
+    --body-bg-image-height: 3869px;
+}
+
+body {
+    position: relative;
+    background-image: var(--body-bg-image-url);
+    background-color: rgb(69, 53, 29);
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: var(--body-bg-image-width);
+    height: var(--body-bg-image-height);
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
