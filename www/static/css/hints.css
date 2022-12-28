@@ -1,22 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Reem+Kufi');
 
 #hints-container {
-    background-color: aqua;
+    /* background-color: aqua; */
     height: 100%;
-}
-
-#hints-container > p {
-    font-family: "Reem Kufi", sans-serif;
-    text-align: left;
-    font-size: 22px;
-    color: rgb(255, 208, 0);
-    background-color: rgba(64, 64, 64, 0);
-    text-shadow: rgb(0, 0, 0) 3px 3px 3px;
-    margin: 0;
+    padding-left: 10px;
+    padding-bottom: 10px;
 }
 
 #hints-buttons-container {
-    text-align: center;
+    text-align: left;
 }
 
 .hints-buttons {

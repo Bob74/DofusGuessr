@@ -3,7 +3,7 @@
 }
 
 #sidebar {
-    background-color: #000000C0;
+    /* background-color: #000000C0; */
     width: var(--sidebar-width);
     height: 100%;
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
@@ -24,6 +24,7 @@
 }
 
 .sidebar-footer {
+    backdrop-filter: blur(5px);
     width: var(--sidebar-width);
     display: inline-flex;
     flex-direction: column;
