@@ -13,6 +13,6 @@ class WebsiteProvider:
         @self.__app.get("/")
         async def get():
             self.__app.mount("/static", StaticFiles(directory="www/static"), name="static")
-            with open("www/index.html") as file:
+            with open("www/index.html", encoding="UTF-8") as file:
                 html_read = file.read()
             return HTMLResponse(html_read)
