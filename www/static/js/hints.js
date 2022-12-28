@@ -10,7 +10,7 @@ export default class Hints {
 
         this.areaNameEndpoint = "/client/hint/action/area"
 
-        this.buttonHint = this.gameContainer.querySelector("#button-hint");
+        this.buttonHint = this.gameContainer.querySelector("#button-hint-area");
 
         this.isAreaNameEnabled = false;
     }

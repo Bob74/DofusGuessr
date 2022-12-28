@@ -1,30 +1,10 @@
 import Game from "./game.js";
+import Ui from "./ui.js";
 
 'use strict';
 
 let ws;
 let game;
-
-let divTargeted = document.getElementById('guess-container');
-divTargeted.addEventListener('mouseover', function(){
-    document.body.classList.remove('dragscroll');
-    dragscroll.reset()
-});
-
-divTargeted.addEventListener('mouseout', function(){
-    document.body.classList.add('dragscroll');
-    dragscroll.reset()
-});
-
-// let divGameGrid = document.getElementById('game-container');
-// divGameGrid.addEventListener('mouseover', function(){
-//     console.log('In');
-//     divGameGrid.style.opacity = "1";
-// });
-// divGameGrid.addEventListener('mouseout', function(){
-//     console.log('Out');
-//     divGameGrid.style.opacity = "0.6";
-// });
 
 function setupWebsocket() {
     ws = new WebSocket("ws://127.0.0.1:8090/ws");
@@ -42,7 +22,7 @@ function setupWebsocket() {
             switch (message.msg_type) {
                 case 'GameConnectMessage':
                     // Création de la game
-                    game = new Game(message.client_id, "game-container");
+                    game = new Game(message.client_id, "sidebar");
                     break;
                 case 'GameUpdateImageMessage':
                     // Update de l'image envoyée
@@ -68,4 +48,5 @@ function setupWebsocket() {
 
 window.addEventListener('DOMContentLoaded', (event) => {
     setupWebsocket();
+    new Ui();
 });

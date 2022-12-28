@@ -23,7 +23,7 @@ export default class Game {
         this.buttonGuess = this.gameContainer.querySelector("#button-guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
-        this.buttonHint = this.gameContainer.querySelector("#button-hint");
+        this.buttonHint = this.gameContainer.querySelector("#button-hint-area");
         this.buttonHint.onclick = this.askAreaNameHint.bind(this);
 
         this.connectClient();
