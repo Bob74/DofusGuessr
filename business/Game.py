@@ -7,6 +7,7 @@ import math
 from datetime import datetime, timedelta
 
 from business.map.Map import Map
+from provider.websocket.messages.GameUpdateBackgroundMessage import GameUpdateBackgroundMessage
 from provider.websocket.messages.GameUpdateImageMessage import GameUpdateImageMessage
 from provider.websocket.messages.GameEndMessage import GameEndMessage
 
@@ -18,10 +19,17 @@ if TYPE_CHECKING:
 class Game:
 
     _MAX_POINTS = 5000
+    _BACKGROUND_IMAGE = 'static/img/bg/map_full.jpg'
+    _BACKGROUND_HEIGHT = 3869
+    _BACKGROUND_WIDTH = 5359
 
     @property
     def id(self) -> str:
         return self._id
+
+    @property
+    def background_map_fullpath(self) -> str:
+        return self._BACKGROUND_IMAGE
 
     @property
     def client(self) -> Client:
@@ -69,6 +77,15 @@ class Game:
         # Joueur de la partie
         self._client = client
 
+        # Envoi de l'image de fond
+        self.send_client_message(
+            GameUpdateBackgroundMessage(
+                file_path=self.background_map_fullpath,
+                height=self._BACKGROUND_HEIGHT,
+                width=self._BACKGROUND_WIDTH
+            )
+        )
+
         # Map à deviner
         self._level = 0
         self._is_outdoor = True
@@ -88,6 +105,7 @@ class Game:
         self._timestamp_stop = None
         self._penalty = 0
 
+        # Envoi de l'image à chercher
         self.send_client_message(GameUpdateImageMessage(map_file=self.map_start.filename(web_path=True)))
 
     def stop(self):
