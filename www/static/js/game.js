@@ -1,5 +1,6 @@
 import sendRestMessage from "./rest.js";
 import Hints from "./hints.js";
+import Informations from "./informations.js";
 
 
 'use strict';
@@ -17,7 +18,8 @@ export default class Game {
         this.sidebarContainer = document.getElementById(sidebarId);
 
         this.hints = new Hints(this.clientId, this.sidebarContainer, "hints-container");
-        this.backgroundMap = new BackgroundMap("background-container");
+        this.backgroundMap = new BackgroundMap(this, "background-container");
+        this.informations = new Informations("informations-container");
         
         this.buttonUp = this.sidebarContainer.querySelector("#button-up");
         this.buttonUp.onclick = this.move.bind(this, "up");
@@ -98,4 +100,8 @@ export default class Game {
         this.backgroundMap.setBackground(bgPath, height, width);
     }
 
+    /* Informations */
+    setInfoCoordinates(x, y) {
+        this.informations.setCoordinates(x, y);
+    }
 }

@@ -1,0 +1,11 @@
+
+#informations-container {
+    background-color: aqua;
+    position: fixed;
+    width: 10%;
+    right: 0px;
+    top: 0px;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+}

@@ -27,7 +27,7 @@ export default class Hints {
     }
 
     showAreaName(areaName) {
-        const areaNameElement = this.sidebarContainer.querySelector("#hint");
+        const areaNameElement = this.sidebarContainer.querySelector("#hint-area-name");
         areaNameElement.innerHTML = `Votre zone de départ est : ${areaName}`;
         areaNameElement.hidden = false;
     }
