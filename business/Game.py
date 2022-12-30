@@ -123,7 +123,8 @@ class Game:
                 math.fabs(self.map_start.x) - math.fabs(guess_x) + math.fabs(self.map_start.y) - math.fabs(guess_y)
         ) * 50
 
-        return int(sorted((0, result, self._MAX_POINTS))[1]) - self.penalty
+        score = int(result) - self.penalty
+        return sorted((0, score, self._MAX_POINTS))[1]
 
     def update_current_map(self, map_id):
         """
