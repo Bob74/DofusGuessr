@@ -3,15 +3,14 @@ import sendRestMessage from "./rest.js";
 'use strict';
 
 export default class Hints {
-    constructor(clientId, gameContainer, hintsContainerId) {
+    constructor(clientId, sidebarContainer, hintsContainerId) {
         this.clientId = clientId;
-        this.gameContainer = gameContainer;
-        this.hintsContainer = this.gameContainer.querySelector(`#${hintsContainerId}`);
+        this.sidebarContainer = sidebarContainer;
+        this.hintsContainer = this.sidebarContainer.querySelector(`#${hintsContainerId}`);
 
+        /* Indice AreaName : Afficher la zone de la map */
         this.areaNameEndpoint = "/client/hint/action/area"
-
-        this.buttonHint = this.gameContainer.querySelector("#button-hint-area");
-
+        this.buttonHintAreaName = this.sidebarContainer.querySelector("#button-hint-area-name");
         this.isAreaNameEnabled = false;
     }
 
@@ -21,14 +20,14 @@ export default class Hints {
                 sendRestMessage("PATCH", this.areaNameEndpoint, JSON.stringify({
                     "client_id": this.clientId
                 }));
-                this.buttonHint.disabled = true;
+                this.buttonHintAreaName.disabled = true;
                 this.isAreaNameEnabled = true;
             }
         }
     }
 
     showAreaName(areaName) {
-        const areaNameElement = this.gameContainer.querySelector("#hint");
+        const areaNameElement = this.sidebarContainer.querySelector("#hint");
         areaNameElement.innerHTML = `Votre zone de départ est : ${areaName}`;
         areaNameElement.hidden = false;
     }

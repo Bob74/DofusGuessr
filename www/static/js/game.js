@@ -3,34 +3,36 @@ import Hints from "./hints.js";
 
 
 'use strict';
+import BackgroundMap from "./backgroundMap.js";
+
 
 export default class Game {
 
-    constructor(clientId, gameContainerId) {
+    constructor(clientId, sidebarId) {
         this.clientId = clientId;
         this.backgroundFilePath = "";
         this.backgroundHeight = 0;
         this.backgroundWidth = 0;
 
-        this.gameContainer = document.getElementById(gameContainerId);
-        this.backgroundImage = document.getElementById("background-img")
+        this.sidebarContainer = document.getElementById(sidebarId);
 
-        this.hints = new Hints(this.clientId, this.gameContainer, "hints-container");
+        this.hints = new Hints(this.clientId, this.sidebarContainer, "hints-container");
+        this.backgroundMap = new BackgroundMap("background-container");
         
-        this.buttonUp = this.gameContainer.querySelector("#button-up");
+        this.buttonUp = this.sidebarContainer.querySelector("#button-up");
         this.buttonUp.onclick = this.move.bind(this, "up");
-        this.buttonDown = this.gameContainer.querySelector("#button-down");
+        this.buttonDown = this.sidebarContainer.querySelector("#button-down");
         this.buttonDown.onclick = this.move.bind(this, "down");
-        this.buttonLeft = this.gameContainer.querySelector("#button-left");
+        this.buttonLeft = this.sidebarContainer.querySelector("#button-left");
         this.buttonLeft.onclick = this.move.bind(this, "left");
-        this.buttonRight = this.gameContainer.querySelector("#button-right");
+        this.buttonRight = this.sidebarContainer.querySelector("#button-right");
         this.buttonRight.onclick = this.move.bind(this, "right");
 
-        this.buttonGuess = this.gameContainer.querySelector("#button-guess");
+        this.buttonGuess = this.sidebarContainer.querySelector("#button-guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
-        this.buttonHint = this.gameContainer.querySelector("#button-hint-area");
-        this.buttonHint.onclick = this.askAreaNameHint.bind(this);
+        this.buttonHintAreaName = this.sidebarContainer.querySelector("#button-hint-area-name");
+        this.buttonHintAreaName.onclick = this.askAreaNameHint.bind(this);
 
         this.connectClient();
     }
@@ -41,25 +43,8 @@ export default class Game {
         }));
     }
 
-    getBackgroundHeight() {
-        return this.backgroundHeight;
-    }
-
-    getBackgroundWidth() {
-        return this.backgroundWidth;
-    }
-
-    setBackground(bgPath, height, width) {
-        this.backgroundFilePath = bgPath;
-        this.backgroundHeight = height;
-        this.backgroundWidth = width;
-        this.backgroundImage.style.setProperty("background", `url('${this.backgroundFilePath}') no-repeat`);
-        this.backgroundImage.style.setProperty("height", `${this.backgroundHeight}px`);
-        this.backgroundImage.style.setProperty("width", `${this.backgroundWidth}px`);
-    }
-
     setImg(imgPath) {
-        this.gameContainer.querySelector("#map-img").src = imgPath;
+        this.sidebarContainer.querySelector("#map-img").src = imgPath;
     }
 
     end(score, elapsedTime) {
@@ -69,7 +54,7 @@ export default class Game {
         p.innerHTML = `Score final : ${score} (${elapsedTime})`;
 
         endgameDiv.append(p);
-        this.gameContainer.append(
+        this.sidebarContainer.append(
             endgameDiv
         );
     }
@@ -82,8 +67,8 @@ export default class Game {
     }
 
     guess() {
-        const fieldX = this.gameContainer.querySelector("#field-x").value;
-        const fieldY = this.gameContainer.querySelector("#field-y").value;
+        const fieldX = this.sidebarContainer.querySelector("#field-x").value;
+        const fieldY = this.sidebarContainer.querySelector("#field-y").value;
         sendRestMessage("PATCH", "/client/action/guess", JSON.stringify({
             "client_id": this.clientId,
             "x": fieldX,
@@ -91,12 +76,26 @@ export default class Game {
         }));
     }
 
+    /* Indices */
     askAreaNameHint() {
         this.hints.askAreaName();
     }
 
     showAreaNameHint(areaName) {
         this.hints.showAreaName(areaName);
+    }
+
+    /* Background Map */
+    getBackgroundHeight() {
+        return this.backgroundMap.getBackgroundHeight()
+    }
+
+    getBackgroundWidth() {
+        return this.backgroundMap.getBackgroundWidth();
+    }
+
+    setBackground(bgPath, height, width) {
+        this.backgroundMap.setBackground(bgPath, height, width);
     }
 
 }
