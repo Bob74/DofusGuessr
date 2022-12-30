@@ -9,14 +9,13 @@
         <link rel="stylesheet" href="static/css/game.css"/>
         <link rel="stylesheet" href="static/css/hints.css"/>
         <link rel="stylesheet" href="static/css/endgame.css"/>
-        
     </head>
     <body class="dragscroll">
         <div id="sidebar">
             <div class="sidebar-header">
                 <div id="hints-container">
                     <h1 class="unselectable">Indices</h1>
-                    <div id="hints-buttons-container">
+                    <div id="hints-buttons-container" class="unselectable">
                         <input id="button-hint-area" class="hints-buttons" type="button" value="Zone (500pts)"/>
                         <input id="button-hint-subarea" class="hints-buttons" type="button" value="Sous-zone (1000pts)" disabled/>
                         <p id ="hint" hidden="true">Zone de départ : </p>
@@ -25,7 +24,7 @@
             </div>
 
             <div class="sidebar-footer">
-                <table id="game-grid">
+                <table id="game-grid" class="unselectable">
                     <tr>
                         <td class="grid-col-left"></td>
                         <td class="grid-col-center"><input id="button-up" type="button" value="⬆"/></td>
@@ -45,9 +44,9 @@
                     </tr>
                 </table>
     
-                <div id="guess-container">
+                <div id="bottom-container">
                     <div>
-                        <ul>
+                        <ul class="unselectable">
                             <li><span>X : <input id="field-x" type="text"/></span></li>
                             <li><span>Y : <input id="field-y" type="text"/></span></li>
                         </ul>
@@ -58,9 +57,17 @@
                 </div>
             </div>
         </div>
+
+        <div id="background-container">
+            <img id="background-img" usemap="#full_map">
+            <div id="background-grid">
+                <map name="full_map">
+                    <area shape="rect" coords="0,0,1000,1000" alt="0,0,1000,1000" href="https://www.geeksforgeeks.org"/> 
+                </map>
+            </div>
+        </div>
+
         <script src="static/js/node_modules/dragscroll/dragscroll.js"></script>
-        <script type='module' src="static/js/script.js">
-            // Our Javascript will go here.
-        </script>
+        <script type='module' src="static/js/script.js"></script>
     </body>
 </html>

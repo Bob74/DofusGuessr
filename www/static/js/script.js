@@ -5,6 +5,7 @@ import Ui from "./ui.js";
 
 let ws;
 let game;
+let ui;
 
 function setupWebsocket() {
     ws = new WebSocket("ws://127.0.0.1:8090/ws");
@@ -24,9 +25,16 @@ function setupWebsocket() {
                     // Création de la game
                     game = new Game(message.client_id, "sidebar");
                     break;
+                case 'GameUpdateBackgroundMessage':
+                    // Update de l'image de fond (map full)
+                    game.setBackground(message.file_path, message.height, message.width);
+                    if (!ui) {
+                        ui = new Ui(game);
+                    }
+                    break;
                 case 'GameUpdateImageMessage':
                     // Update de l'image envoyée
-                    game.updateImg(message.map_file);
+                    game.setImg(message.map_file);
                     break;
                 case 'GameEndMessage':
                     // Fin de partie
@@ -48,5 +56,4 @@ function setupWebsocket() {
 
 window.addEventListener('DOMContentLoaded', (event) => {
     setupWebsocket();
-    new Ui();
 });

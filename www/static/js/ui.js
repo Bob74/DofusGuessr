@@ -2,9 +2,9 @@
 
 export default class Ui {
 
-    constructor(clientId) {
-        this.clientId = clientId;
-        
+    constructor(game) {
+        this.game = game;
+
         /* Configuration du zoom de l'aperçu de map */
         this.isSidebarEnlarged = false;
         this.sidebarInitialWidth = document.documentElement.style.getPropertyValue('--sidebar-width');
@@ -12,33 +12,35 @@ export default class Ui {
         this.sidebarButtonEnlarge.onclick = this.toggleEnlargedSidebar.bind(this);
         
         /* Configuration du Drag and Scroll de la page */
-        this.guessContainer = document.getElementById('guess-container');
-        this.guessContainer.addEventListener('mouseover', this.scrollableMouseOver);
-        this.guessContainer.addEventListener('mouseout', this.scrollableMouseOut);
+        // this.bottomContainer = document.getElementById('bottom-container');
+        this.sidebarFooter = document.querySelector('.sidebar-footer');
+        // Désactivation du DragScroll quand on survol l'élément
+        this.sidebarFooter.addEventListener('mouseover', this.scrollableMouseOver);
+        // this.bottomContainer.addEventListener('mouseover', this.scrollableMouseOver);
+        // Activation du DragScroll quand on survol l'élément
+        this.sidebarFooter.addEventListener('mouseout', this.scrollableMouseOut);
+        // this.bottomContainer.addEventListener('mouseout', this.scrollableMouseOut);
         
         /* Configuration de l'image de fond */
-        const bgImgUrl = "https://solomonk.fr/img/map%201.29.jpg";
-        const bgImgWidth = 5359;
-        const bgImgHeight = 3869;
-        document.body.style.backgroundImage = bgImgUrl;
-        document.body.style.height = bgImgHeight;
-        document.body.style.width = bgImgWidth;
-
         // Centrage de l'image de fond
         window.scroll({
-            top: bgImgHeight / 2,
-            left: bgImgWidth / 2,
+            top: this.game.getBackgroundHeight() / 2,
+            left: this.game.getBackgroundWidth() / 2,
             behavior: 'auto'
         });
     }
 
     /*
-    * Utilisé par la lib `dragscroll` pour permettre de bouger la map de fond
+    * Désactivation du DragScroll sur la page entière.
     */
     scrollableMouseOver() {
         document.body.classList.remove('dragscroll');
         dragscroll.reset();
     }
+
+    /*
+    * Activation du DragScroll sur la page entière.
+    */
     scrollableMouseOut() {
         document.body.classList.add('dragscroll');
         dragscroll.reset();

@@ -8,7 +8,13 @@ export default class Game {
 
     constructor(clientId, gameContainerId) {
         this.clientId = clientId;
+        this.backgroundFilePath = "";
+        this.backgroundHeight = 0;
+        this.backgroundWidth = 0;
+
         this.gameContainer = document.getElementById(gameContainerId);
+        this.backgroundImage = document.getElementById("background-img")
+
         this.hints = new Hints(this.clientId, this.gameContainer, "hints-container");
         
         this.buttonUp = this.gameContainer.querySelector("#button-up");
@@ -35,7 +41,24 @@ export default class Game {
         }));
     }
 
-    updateImg(imgPath) {
+    getBackgroundHeight() {
+        return this.backgroundHeight;
+    }
+
+    getBackgroundWidth() {
+        return this.backgroundWidth;
+    }
+
+    setBackground(bgPath, height, width) {
+        this.backgroundFilePath = bgPath;
+        this.backgroundHeight = height;
+        this.backgroundWidth = width;
+        this.backgroundImage.style.setProperty("background", `url('${this.backgroundFilePath}') no-repeat`);
+        this.backgroundImage.style.setProperty("height", `${this.backgroundHeight}px`);
+        this.backgroundImage.style.setProperty("width", `${this.backgroundWidth}px`);
+    }
+
+    setImg(imgPath) {
         this.gameContainer.querySelector("#map-img").src = imgPath;
     }
 
