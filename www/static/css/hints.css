@@ -3,8 +3,7 @@
 #hints-container {
     /* background-color: aqua; */
     height: 100%;
-    padding-left: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
 }
 
 #hints-buttons-container {

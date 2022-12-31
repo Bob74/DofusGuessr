@@ -5,6 +5,7 @@
         <title>DofusGuessr</title>
         <link rel="stylesheet" href="static/css/styles.css"/>
         <link rel="stylesheet" href="static/css/sidebar.css"/>
+        <link rel="stylesheet" href="static/css/backgroundMap.css"/>
         <link rel="stylesheet" href="static/css/game.css"/>
         <link rel="stylesheet" href="static/css/hints.css"/>
         <link rel="stylesheet" href="static/css/informations.css"/>
@@ -18,7 +19,7 @@
                     <div id="hints-buttons-container" class="unselectable">
                         <input id="button-hint-area-name" class="hints-buttons" type="button" value="Zone (500pts)"/>
                         <input id="button-hint-subarea" class="hints-buttons" type="button" value="Sous-zone (1000pts)" disabled/>
-                        <p id ="hint-area-name" hidden="true">Zone de départ : </p>
+                        <p id="hint-area-name" hidden="true">Zone de départ : </p>
                     </div>
                 </div>
             </div>
@@ -58,27 +59,19 @@
             </div>
         </div>
         <div id="informations-container">
-            <p id="coordinates"></p>
+            <h1 class="unselectable">Informations</h1>
+            <p id="informations-map" class="unselectable">Carte : Dofus Retro</p>
+            <span>Temps restant : </span>
+            <span id="informations-timer">00:00:00</span>
         </div>
-
 
         <div id="background-container">
-            <img usemap="#full-map">
-            <div class="map-selector"></div>
+            <table id="background-grid" class="unselectable"></table>
+            <img id="background-map" class="unselectable">
         </div>
         
-        <map name="full-map" id="full-map">
-            <area alt="" title="" href="#" shape="rect" coords="0,0,1000,1000" />
-            <area alt="" title="" href="#" shape="rect" coords="54,36,66,49" />
-            <area alt="" title="" href="#" shape="rect" coords="72,38,83,48" />
-            <area alt="" title="" href="#" shape="rect" coords="56,4,80,28" />
-            <area alt="" title="" href="#" shape="rect" coords="7,7,45,46" />
-            <area alt="" title="" href="#" shape="rect" coords="10,59,76,125" />
-            <area alt="" title="" href="#" shape="rect" coords="93,9,199,122" />
-        </map>
-
         <script src="static/js/node_modules/dragscroll/dragscroll.js"></script>
-        <script type='module' src="static/js/script.js"></script>
+        <script type="module" src="static/js/script.js"></script>
 
     </body>
 </html>
