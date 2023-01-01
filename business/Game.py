@@ -63,11 +63,11 @@ class Game:
             return self.timestamp_stop - self.timestamp_start
 
     @property
-    def penalty(self) -> int:
+    def penalty_from_bonuses(self) -> int:
         return self._penalty
 
-    @penalty.setter
-    def penalty(self, value) -> None:
+    @penalty_from_bonuses.setter
+    def penalty_from_bonuses(self, value) -> None:
         self._penalty += value
 
     def __init__(self, client: Client):
@@ -135,14 +135,19 @@ class Game:
         """
         Calcul les points gagnés sur la partie.
         """
+        # Combien de cellules d'écart il faut pour arriver à 0 points ?
+        distance_to_zero_points = 64
 
-        # Todo : utiliser une fonction logarithmique pour enlever + de points + on est loin
-        result = self._MAX_POINTS - (
-                math.fabs(self.map_start.x) - math.fabs(guess_x) + math.fabs(self.map_start.y) - math.fabs(guess_y)
-        ) * 50
+        # Calcul de la distance entre l'origine et le guess
+        origin = [self.map_start.x, self.map_start.y]
+        guess = [guess_x, guess_y]
+        distance = math.dist(origin, guess)
 
-        score = int(result) - self.penalty
-        return sorted((0, score, self._MAX_POINTS))[1]
+        # Application des pénalités : distance du point visé + pénalités des bonus utilisés
+        penalty_from_distance = int(distance * (self._MAX_POINTS / distance_to_zero_points))
+        result = self._MAX_POINTS - penalty_from_distance - self.penalty_from_bonuses
+
+        return sorted((0, int(result), self._MAX_POINTS))[1]
 
     def update_current_map(self, map_id):
         """
