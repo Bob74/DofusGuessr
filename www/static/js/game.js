@@ -1,10 +1,8 @@
-import sendRestMessage from "./rest.js";
-import Hints from "./hints.js";
-import Informations from "./informations.js";
-
-
 'use strict';
 import BackgroundMap from "./backgroundMap.js";
+import Hints from "./hints.js";
+import Informations from "./informations.js";
+import sendRestMessage from "./rest.js";
 
 
 export default class Game {
@@ -29,6 +27,9 @@ export default class Game {
         this.buttonLeft.onclick = this.move.bind(this, "left");
         this.buttonRight = this.sidebarContainer.querySelector("#button-right");
         this.buttonRight.onclick = this.move.bind(this, "right");
+
+        this.buttonBackToStart = this.sidebarContainer.querySelector("#button-back-to-start");
+        this.buttonBackToStart.onclick = this.backToStart.bind(this);
 
         this.buttonGuess = this.sidebarContainer.querySelector("#button-guess");
         this.buttonGuess.onclick = this.guess.bind(this);
@@ -56,7 +57,7 @@ export default class Game {
         p.innerHTML = `Score final : ${score} (${elapsedTime})`;
 
         endgameDiv.append(p);
-        this.sidebarContainer.append(
+        document.body.append(
             endgameDiv
         );
     }
@@ -68,9 +69,15 @@ export default class Game {
         }));
     }
 
+    backToStart() {
+        sendRestMessage("PATCH", "/client/action/back-to-start", JSON.stringify({
+            "client_id": this.clientId
+        }));
+    }
+
     guess() {
-        const fieldX = this.sidebarContainer.querySelector("#field-x").value;
-        const fieldY = this.sidebarContainer.querySelector("#field-y").value;
+        const fieldX = this.sidebarContainer.querySelector("#guess-x-input").value;
+        const fieldY = this.sidebarContainer.querySelector("#guess-y-input").value;
         sendRestMessage("PATCH", "/client/action/guess", JSON.stringify({
             "client_id": this.clientId,
             "x": fieldX,
