@@ -142,6 +142,10 @@ class RestProvider:
 
             client = ClientManager().get_client_by_token(model.client_id)
             game = GameManager().get_game_for_client(client)
+
+            if not game.is_started:
+                ErrorCode.throw(GAME_NOT_STARTED)
+
             game.penalty_from_bonuses += 500
 
             game.send_client_message(
