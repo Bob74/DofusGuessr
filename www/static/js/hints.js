@@ -32,4 +32,9 @@ export default class Hints {
         areaNameElement.hidden = false;
     }
 
+    disableUi() {
+        // Désactivation des boutons d'indices
+        this.buttonHintAreaName.disabled = true;
+    }
+
 }

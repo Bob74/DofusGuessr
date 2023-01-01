@@ -56,6 +56,7 @@ export default class Game {
     end(score, elapsedTime) {
         // Désactivation de l'interface de jeu
         this.disableUi();
+        this.hints.disableUi();
         
         // Ajout de l'overlay endgame
         let endgameDiv = document.createElement("div");
