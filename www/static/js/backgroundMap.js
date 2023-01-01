@@ -31,6 +31,7 @@ export default class BackgroundMap {
                 cell.title = `${x}:${y}`;
                 cell.setAttribute("cell-x", x);
                 cell.setAttribute("cell-y", y);
+                cell.addEventListener("click", e => this.onCellClicked(e));
                 column.appendChild(cell);
             }
         }
@@ -60,6 +61,13 @@ export default class BackgroundMap {
 
     getBackgroundWidth() {
         return this.backgroundWidth;
+    }
+
+    onCellClicked(event) {
+        this.game.setCoordinates(
+            event.target.getAttribute("cell-x"),
+            event.target.getAttribute("cell-y")
+        );
     }
 
 }

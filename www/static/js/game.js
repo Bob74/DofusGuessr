@@ -31,6 +31,9 @@ export default class Game {
         this.buttonBackToStart = this.sidebarContainer.querySelector("#button-back-to-start");
         this.buttonBackToStart.onclick = this.backToStart.bind(this);
 
+
+        this.guessFieldX = this.sidebarContainer.querySelector("#guess-x-input");
+        this.guessFieldY = this.sidebarContainer.querySelector("#guess-y-input");
         this.buttonGuess = this.sidebarContainer.querySelector("#button-guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
@@ -51,6 +54,10 @@ export default class Game {
     }
 
     end(score, elapsedTime) {
+        // Désactivation de l'interface de jeu
+        this.disableUi();
+        
+        // Ajout de l'overlay endgame
         let endgameDiv = document.createElement("div");
         endgameDiv.setAttribute("id", "endgame-overlay");
         let p = document.createElement("p");
@@ -76,13 +83,24 @@ export default class Game {
     }
 
     guess() {
-        const fieldX = this.sidebarContainer.querySelector("#guess-x-input").value;
-        const fieldY = this.sidebarContainer.querySelector("#guess-y-input").value;
         sendRestMessage("PATCH", "/client/action/guess", JSON.stringify({
             "client_id": this.clientId,
-            "x": fieldX,
-            "y": fieldY
+            "x": this.guessFieldX.value,
+            "y": this.guessFieldY.value
         }));
+    }
+
+    disableUi() {
+        // Désactivation des inputs
+        this.buttonUp.disabled = true;
+        this.buttonDown.disabled = true;
+        this.buttonLeft.disabled = true;
+        this.buttonRight.disabled = true;
+        this.buttonBackToStart.disabled = true;
+
+        this.guessFieldX.disabled = true;
+        this.guessFieldY.disabled = true;
+        this.buttonGuess.disabled = true;
     }
 
     /* Indices */
@@ -107,8 +125,9 @@ export default class Game {
         this.backgroundMap.setBackground(bgPath, height, width);
     }
 
-    /* Informations */
-    setInfoCoordinates(x, y) {
-        this.informations.setCoordinates(x, y);
+    /* Guess */
+    setCoordinates(x, y) {
+        this.guessFieldX.value = x;
+        this.guessFieldY.value = y;
     }
 }
