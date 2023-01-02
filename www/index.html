@@ -13,7 +13,17 @@
         <link rel="stylesheet" href="static/css/endgame.css"/>
     </head>
     <body class="dragscroll">
-        
+
+        <div id="endgame-container" class="unselectable" hidden>
+            <table id="endgame-grid">
+                <tbody>
+                    <tr>
+                        <td><span id="endgame-message"></span><input id="button-restart" type="button" value="♻️&#13;&#10;Recommencer"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div id="background-container">
             <table id="background-grid" class="unselectable"></table>
             <img id="background-map" class="unselectable">
@@ -49,15 +59,27 @@
                         <tr>
                             <td class="grid-col-left"></td>
                             <td class="grid-col-center"><input id="button-down" type="button" value="⬇"/></td>
-                            <td style="text-align: right;"><input id="button-back-to-start" type="button" title="Retour au départ" value="🏁"/></td>
+                            <td style="text-align: right;"></td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div id="guess-container" class="unselectable">
-                    <span id="guess-x-text">X </span><input id="guess-x-input" class="guess-input" type="number"/>
-                    <span id="guess-y-text">Y </span><input id="guess-y-input" class="guess-input" type="number"/>
-                    <input id="button-guess" type="button" value="Guess ! 🚩"/>
+                    <table id="guess-grid">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input id="button-back-to-start" type="button" title="Retour au départ" value="🔙 Départ"/>
+                                </td>
+                                <td>
+                                    <span id="guess-x-text">X </span><input id="guess-x-input" class="guess-input" type="number"/>
+                                    <span id="guess-y-text">Y </span><input id="guess-y-input" class="guess-input" type="number"/>
+                                    <input id="button-guess" type="button" value="Guess ! 🚩"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
         </div>

@@ -1,23 +1,41 @@
 @import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
 
-#endgame-overlay {
+#endgame-container {
     position: fixed;
+    text-align: center;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 100;
 }
 
-#endgame-overlay > p {
+#endgame-grid {
     background-color: #000000C0;
     position: fixed;
     text-align: center;
+    width: 100%;
+    top: 50%;
+}
+
+#endgame-grid > tbody > tr {
     font-family: "Luckiest Guy", cursive;
+}
+
+#endgame-grid > tbody > tr > td {
+    height: 64px;
+}
+
+#endgame-message {
+    vertical-align: middle;
     font-size: 36pt;
     color: white;
-    top: 50%;
     width: 100%;
-    margin: 0;
-    padding: 0;
+    height: 100%;
+}
+
+#button-restart {
+    font-family: "Luckiest Guy", cursive;
+    height: 100%;
+    margin: 10px;
 }

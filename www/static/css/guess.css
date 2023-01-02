@@ -6,9 +6,25 @@
     font-family: "Luckiest Guy", cursive;
     font-size: 18px;
     color: white;
-    width: 100%;
     padding: 0;
     margin: 30px 0 10px 0;
+}
+
+#guess-grid {
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+#guess-grid > tbody > tr > td:nth-child(1){
+    text-align: left;
+}
+
+#button-back-to-start {
+    font-family: "Luckiest Guy", cursive;
+    font-size: 20px;
+    vertical-align: middle;
+    height: 38px;
+    width: 128px;
 }
 
 #guess-y-text {
@@ -16,9 +32,9 @@
 }
 
 .guess-input {
+    vertical-align: middle;
     height: 32px;
-    width: 84px;
-    margin-top: 30px;
+    width: 42px;
 }
 
 #button-guess {

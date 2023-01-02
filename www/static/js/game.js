@@ -1,24 +1,22 @@
 'use strict';
-import BackgroundMap from "./backgroundMap.js";
+import Ui from "./ui.js";
 import Hints from "./hints.js";
+import BackgroundMap from "./backgroundMap.js";
 import Informations from "./informations.js";
 import sendRestMessage from "./rest.js";
 
 
 export default class Game {
 
-    constructor(clientId, sidebarId) {
+    constructor(clientId) {
         this.clientId = clientId;
         this.backgroundFilePath = "";
         this.backgroundHeight = 0;
         this.backgroundWidth = 0;
-
-        this.sidebarContainer = document.getElementById(sidebarId);
-
-        this.hints = new Hints(this.clientId, this.sidebarContainer, "hints-container");
-        this.backgroundMap = new BackgroundMap(this, "background-container");
-        this.informations = new Informations("informations-container");
         
+        /* Sidebar */
+        this.sidebarContainer = document.getElementById("sidebar");
+
         this.buttonUp = this.sidebarContainer.querySelector("#button-up");
         this.buttonUp.onclick = this.move.bind(this, "up");
         this.buttonDown = this.sidebarContainer.querySelector("#button-down");
@@ -31,15 +29,28 @@ export default class Game {
         this.buttonBackToStart = this.sidebarContainer.querySelector("#button-back-to-start");
         this.buttonBackToStart.onclick = this.backToStart.bind(this);
 
-
         this.guessFieldX = this.sidebarContainer.querySelector("#guess-x-input");
         this.guessFieldY = this.sidebarContainer.querySelector("#guess-y-input");
         this.buttonGuess = this.sidebarContainer.querySelector("#button-guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
+        /* Endgame */
+        this.endgameContainer = document.getElementById("endgame-container")
+        this.endgameMessage = this.endgameContainer.querySelector("#endgame-message")
+        this.buttonRestart = this.endgameContainer.querySelector("#button-restart")
+        this.buttonRestart.onclick = this.restart.bind(this);
+
+        /* Indices */
         this.buttonHintAreaName = this.sidebarContainer.querySelector("#button-hint-area-name");
         this.buttonHintAreaName.onclick = this.askAreaNameHint.bind(this);
 
+        /* Création de classes */
+        this.ui;
+        this.hints = new Hints(this.clientId, this.sidebarContainer, "hints-container");
+        this.backgroundMap = new BackgroundMap(this, "background-container");
+        this.informations = new Informations("informations-container");
+
+        /* Appel Rest pour la connexion du client */
         this.connectClient();
     }
 
@@ -58,16 +69,11 @@ export default class Game {
         this.disableUi();
         this.hints.disableUi();
         
-        // Ajout de l'overlay endgame
-        let endgameDiv = document.createElement("div");
-        endgameDiv.setAttribute("id", "endgame-overlay");
-        let p = document.createElement("p");
-        p.innerHTML = `Score final : ${score} (${elapsedTime})`;
+        // Maj du message de fin
+        this.endgameMessage.innerHTML = `Score final : ${score} (${elapsedTime})`;
 
-        endgameDiv.append(p);
-        document.body.append(
-            endgameDiv
-        );
+        // Affichage du message de fin de partie        
+        this.endgameContainer.hidden = false;
     }
 
     move(direction) {
@@ -91,14 +97,22 @@ export default class Game {
         }));
     }
 
+    restart() {
+        document.location.reload();
+    }
+
+    /*
+    * Désactive les inputs de l'interface de jeu
+    */
     disableUi() {
-        // Désactivation des inputs
+        // Désactivation de la partie Map
         this.buttonUp.disabled = true;
         this.buttonDown.disabled = true;
         this.buttonLeft.disabled = true;
         this.buttonRight.disabled = true;
         this.buttonBackToStart.disabled = true;
 
+        // Désactivation de la partie Guess
         this.guessFieldX.disabled = true;
         this.guessFieldY.disabled = true;
         this.buttonGuess.disabled = true;
@@ -124,6 +138,9 @@ export default class Game {
 
     setBackground(bgPath, height, width) {
         this.backgroundMap.setBackground(bgPath, height, width);
+        if (!this.ui) {
+            this.ui = new Ui(this);
+        }
     }
 
     /* Guess */

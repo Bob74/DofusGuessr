@@ -1,11 +1,9 @@
 import Game from "./game.js";
-import Ui from "./ui.js";
 
 'use strict';
 
 let ws;
 let game;
-let ui;
 
 function setupWebsocket() {
     ws = new WebSocket("ws://127.0.0.1:8090/ws");
@@ -23,14 +21,11 @@ function setupWebsocket() {
             switch (message.msg_type) {
                 case 'GameConnectMessage':
                     // Création de la game
-                    game = new Game(message.client_id, "sidebar");
+                    game = new Game(message.client_id);
                     break;
                 case 'GameUpdateBackgroundMessage':
                     // Update de l'image de fond (map full)
                     game.setBackground(message.file_path, message.height, message.width);
-                    if (!ui) {
-                        ui = new Ui(game);
-                    }
                     break;
                 case 'GameUpdateImageMessage':
                     // Update de l'image envoyée

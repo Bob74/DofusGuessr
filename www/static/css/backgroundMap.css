@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
+
 #background-container {
+    cursor: grab;
     z-index: 5;
 }
 
@@ -42,3 +45,9 @@
     width: 38px;
 }
 
+.selected-cell {
+    font-family: "Luckiest Guy", cursive;
+    text-align: center;
+    color: white;
+    background-color: #CC00CCCC;
+}

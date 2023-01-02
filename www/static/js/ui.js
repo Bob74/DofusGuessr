@@ -16,10 +16,9 @@ export default class Ui {
         this.sidebarFooter = document.querySelector('.sidebar-footer');
         // Désactivation du DragScroll quand on survol l'élément
         this.sidebarFooter.addEventListener('mouseover', this.scrollableMouseOver);
-        // this.bottomContainer.addEventListener('mouseover', this.scrollableMouseOver);
+
         // Activation du DragScroll quand on survol l'élément
         this.sidebarFooter.addEventListener('mouseout', this.scrollableMouseOut);
-        // this.bottomContainer.addEventListener('mouseout', this.scrollableMouseOut);
         
         /* Configuration de l'image de fond */
         // Centrage de l'image de fond
@@ -60,5 +59,4 @@ export default class Ui {
             this.isSidebarEnlarged = true;
         }
     }
-
 }
