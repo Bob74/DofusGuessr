@@ -15,7 +15,7 @@
     position: fixed;
     text-align: center;
     width: 100%;
-    top: 50%;
+    top: 33%;
 }
 
 #endgame-grid > tbody > tr {
@@ -36,6 +36,7 @@
 
 #button-restart {
     font-family: "Luckiest Guy", cursive;
+    vertical-align: middle;
     height: 100%;
     margin: 10px;
 }
