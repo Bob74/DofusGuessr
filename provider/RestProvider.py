@@ -152,7 +152,7 @@ class RestProvider:
         """
         Appelé par le client Web lorsqu'il veut revenir au point de départ.
         """
-        @self.__app.patch("/client/action/back-to-start")
+        @self.__app.patch("/client/action/back_to_start")
         async def action(model: ClientActionBackToStartModel, _: Request):
 
             if not ClientManager().does_client_token_exists(model.client_id):

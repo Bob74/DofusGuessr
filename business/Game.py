@@ -161,7 +161,7 @@ class Game:
         self._is_started = False
 
         # Envoi du message de fin de partie au client
-        self.send_client_message(GameEndMessage(score=self._score, elapsed_time=str(self.timer_remaining_time)))
+        self.send_client_message(GameEndMessage(score=self._score, remaining_time=str(self.timer_remaining_time)))
         ClientManager().delete_client(self._client.id)
 
     def thread_timer(self, e: Event):
