@@ -13,7 +13,18 @@ export default class Game {
         this.backgroundFilePath = "";
         this.backgroundHeight = 0;
         this.backgroundWidth = 0;
+
         
+        /* Start screen */
+        this.gameStartContainer = document.getElementById("gamestart-container");
+        this.buttonStartGame = this.gameStartContainer.querySelector("#button-start");
+        this.buttonStartGame.onclick = this.readyToStart.bind(this);
+
+        /* Timer */
+        this.gameTimer;
+        this.gameTimeInitialSec;
+        this.gameTimeRemainingSec;
+
         /* Sidebar */
         this.sidebarContainer = document.getElementById("sidebar");
 
@@ -48,7 +59,7 @@ export default class Game {
         this.ui;
         this.hints = new Hints(this.clientId, this.sidebarContainer, "hints-container");
         this.backgroundMap = new BackgroundMap(this, "background-container");
-        this.informations = new Informations("informations-container");
+        this.informations = new Informations(this, "informations-container");
 
         /* Appel Rest pour la connexion du client */
         this.connectClient();
@@ -64,13 +75,43 @@ export default class Game {
         this.sidebarContainer.querySelector("#map-img").src = imgPath;
     }
 
+    readyToStart() {
+        sendRestMessage("PATCH", "/client/action/start", JSON.stringify({
+            "client_id": this.clientId
+        }));
+    }
+
+    start() {
+        // Enable UI buttons
+        this.setUiDisabled(false);
+        this.hints.setUiDisabled(false);
+
+        // Afficher l'interface sidebar + background + informations
+        this.backgroundMap.setHidden(false);
+        this.sidebarContainer.hidden = false;
+        this.informations.setHidden(false);
+
+        // Scroll au centre de l'image de fond
+        this.backgroundMap.scrollToMiddle();
+
+        // Masquer l'overlay de démarrage
+        this.gameStartContainer.hidden = true;
+
+        // Démarrage du timer
+        this.gameTimer = setInterval(() => this.decreaseTimer(), 1000);
+    }
+
     end(score, elapsedTime) {
+        // Stop du timer
+        clearInterval(this.gameTimer);
+        this.informations.updateTimerText(0);
+                
         // Désactivation de l'interface de jeu
-        this.disableUi();
-        this.hints.disableUi();
+        this.setUiDisabled(true);
+        this.hints.setUiDisabled(true);
         
         // Maj du message de fin
-        this.endgameMessage.innerHTML = `Score final : ${score} (${elapsedTime})`;
+        this.endgameMessage.innerHTML = `Score final : ${score} (Temps restant : ${elapsedTime})`;
 
         // Affichage du message de fin de partie        
         this.endgameContainer.hidden = false;
@@ -101,21 +142,36 @@ export default class Game {
         document.location.reload();
     }
 
+    /* Timer */
+    setInitialGameTime(seconds) {
+        this.gameTimeInitialSec = seconds;
+        this.gameTimeRemainingSec = seconds;
+    }
+
+    decreaseTimer() {
+        this.gameTimeRemainingSec--;
+        if (this.gameTimeRemainingSec <= 0) {
+            // Timer arrivé à la fin, mais c'est le back qui doit indiquer la fin de partie
+            this.informations.updateTimerText(0);
+        }
+        this.informations.updateTimerText(this.gameTimeRemainingSec);
+    }
+
     /*
     * Désactive les inputs de l'interface de jeu
     */
-    disableUi() {
+    setUiDisabled(state) {
         // Désactivation de la partie Map
-        this.buttonUp.disabled = true;
-        this.buttonDown.disabled = true;
-        this.buttonLeft.disabled = true;
-        this.buttonRight.disabled = true;
-        this.buttonBackToStart.disabled = true;
+        this.buttonUp.disabled = state;
+        this.buttonDown.disabled = state;
+        this.buttonLeft.disabled = state;
+        this.buttonRight.disabled = state;
+        this.buttonBackToStart.disabled = state;
 
         // Désactivation de la partie Guess
-        this.guessFieldX.disabled = true;
-        this.guessFieldY.disabled = true;
-        this.buttonGuess.disabled = true;
+        this.guessFieldX.disabled = state;
+        this.guessFieldY.disabled = state;
+        this.buttonGuess.disabled = state;
     }
 
     /* Indices */

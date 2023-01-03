@@ -3,7 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>DofusGuessr</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Luckiest+Guy"/>
         <link rel="stylesheet" href="static/css/styles.css"/>
+        <link rel="stylesheet" href="static/css/gamestart.css"/>
         <link rel="stylesheet" href="static/css/sidebar.css"/>
         <link rel="stylesheet" href="static/css/backgroundMap.css"/>
         <link rel="stylesheet" href="static/css/game.css"/>
@@ -13,6 +15,12 @@
         <link rel="stylesheet" href="static/css/endgame.css"/>
     </head>
     <body class="dragscroll">
+
+        <div id="gamestart-container" class="unselectable">
+            <p>Partie de GeoGuessr sur Dofus Retro</p>
+            <p>5 minutes de temps</p>
+            <input id="button-start" type="button" value="Démarrer !"/>
+        </div>
 
         <div id="endgame-container" class="unselectable" hidden>
             <table id="endgame-grid">
@@ -24,12 +32,12 @@
             </table>
         </div>
 
-        <div id="background-container">
+        <div id="background-container" hidden>
             <table id="background-grid" class="unselectable"></table>
             <img id="background-map" class="unselectable">
         </div>
         
-        <div id="sidebar">
+        <div id="sidebar" hidden>
             <div class="sidebar-header">
                 <div id="hints-container">
                     <h1 class="unselectable">Indices</h1>
@@ -84,10 +92,10 @@
             </div>
         </div>
 
-        <div id="informations-container" class="unselectable">
+        <div id="informations-container" class="unselectable" hidden>
             <h1>Informations</h1>
-            <p id="informations-map">Carte : Dofus Retro</p>
-            <span>Temps restant : </span><span id="informations-timer">00:00:00</span>
+            <p class="informations-text">Carte : Dofus Retro</p>
+            <span class="informations-text">Temps restant : </span><span id="informations-timer" class="informations-text">00:00</span>
         </div>
 
         <script src="static/js/node_modules/dragscroll/dragscroll.js"></script>

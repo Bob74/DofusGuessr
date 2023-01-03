@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Reem+Kufi');
 
 #hints-container {
     /* background-color: aqua; */
@@ -11,18 +10,18 @@
 }
 
 .hints-buttons {
-    background:linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
-    background-color:#44c767;
-    border-radius:42px;
-    border:1px solid #18ab29;
-    display:inline-block;
-    color:#ffffff;
-    font-family:Arial;
-    font-size:12px;
-    font-weight:bold;
-    padding-inline:20px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #2f6627;
+    background: linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
+    background-color: #44c767;
+    border-radius: 42px;
+    border: 1px solid #18ab29;
+    display: inline-block;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    padding-inline: 20px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #2f6627;
 }
 
 .hints-buttons:hover:enabled {

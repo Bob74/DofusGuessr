@@ -1,0 +1,16 @@
+
+#gamestart-container {
+    position: fixed;
+    background-color: #4A5053FF;
+    font-family: "Luckiest Guy", cursive;
+    text-align: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#button-start {
+    font-family: "Luckiest Guy", cursive;
+    vertical-align: middle;
+}

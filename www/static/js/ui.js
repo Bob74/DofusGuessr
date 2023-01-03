@@ -20,13 +20,6 @@ export default class Ui {
         // Activation du DragScroll quand on survol l'élément
         this.sidebarFooter.addEventListener('mouseout', this.scrollableMouseOut);
         
-        /* Configuration de l'image de fond */
-        // Centrage de l'image de fond
-        window.scroll({
-            top: this.game.getBackgroundHeight() / 2,
-            left: this.game.getBackgroundWidth() / 2,
-            behavior: 'auto'
-        });
     }
 
     /*

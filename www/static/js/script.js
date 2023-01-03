@@ -23,6 +23,11 @@ function setupWebsocket() {
                     // Création de la game
                     game = new Game(message.client_id);
                     break;
+                case 'GameOptionsMessage':
+                    // Options de la partie
+                    game.setBackground(message.background.file_path, message.background.height, message.background.width);
+                    game.setInitialGameTime(message.game.initial_time);
+                    break;
                 case 'GameUpdateBackgroundMessage':
                     // Update de l'image de fond (map full)
                     game.setBackground(message.file_path, message.height, message.width);
@@ -30,6 +35,11 @@ function setupWebsocket() {
                 case 'GameUpdateImageMessage':
                     // Update de l'image envoyée
                     game.setImg(message.map_file);
+                    break;
+                case 'GameStartMessage':
+                    // Début de la partie
+                    game.setImg(message.map_file);
+                    game.start();
                     break;
                 case 'GameEndMessage':
                     // Fin de partie

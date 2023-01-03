@@ -17,6 +17,13 @@ export default class BackgroundMap {
     }
 
     /*
+    * Affiche ou masque le fond du jeu
+    */
+    setHidden(state) {
+        this.backgroundContainer.hidden = state;
+    }
+
+    /*
     * Créé la grille de fond qui contient les coordonnées des cellules.
     */
     createGrid() {
@@ -56,6 +63,15 @@ export default class BackgroundMap {
 
         this.backgroundGrid.style.setProperty("height", `${this.backgroundHeight}px`);
         this.backgroundGrid.style.setProperty("width", `${this.backgroundWidth}px`);
+    }
+
+    scrollToMiddle() {
+        // Centrage de l'image de fond
+        window.scroll({
+            top: this.getBackgroundHeight() / 2,
+            left: this.getBackgroundWidth() / 2,
+            behavior: 'auto'
+        });
     }
 
     getBackgroundHeight() {

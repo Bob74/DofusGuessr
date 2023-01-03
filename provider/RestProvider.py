@@ -4,6 +4,7 @@ from fastapi import FastAPI, Request
 from business.GameManager import GameManager
 from business.ClientManager import ClientManager
 from provider.rest.models.ClientActionReadyModel import ClientActionReadyModel
+from provider.rest.models.ClientActionStartModel import ClientActionStartModel
 from provider.rest.models.ClientActionGuessModel import ClientActionGuessModel
 from provider.rest.models.ClientActionMoveModel import ClientActionMoveModel
 from provider.rest.models.ClientActionBackToStartModel import ClientActionBackToStartModel
@@ -21,9 +22,11 @@ class RestProvider:
 
     def __register_endpoints(self):
         self.__client_action_ready()
-        self.__client_guess()
-        self.__client_move()
-        self.__client_back_to_start()
+        self.__client_action_start()
+        self.__client_action_update_guess()
+        self.__client_action_guess()
+        self.__client_action_move()
+        self.__client_action_back_to_start()
         self.__client_hint_action_area()
         logging.info("[REST] Tous les endpoints sont enregistrés")
 
@@ -44,7 +47,28 @@ class RestProvider:
 
             return {'status': 'ok'}
 
-    def __client_guess(self):
+    def __client_action_start(self):
+        """
+        Appelé par le client Web lorsqu'il commence la partie.
+        """
+        @self.__app.patch("/client/action/start")
+        async def action(model: ClientActionStartModel, _: Request):
+
+            if not ClientManager().does_client_token_exists(model.client_id):
+                ErrorCode.throw(CLIENT_BAD_TOKEN)
+
+            client = ClientManager().get_client_by_token(model.client_id)
+            game = GameManager().get_game_for_client(client)
+
+            if game.is_started:
+                ErrorCode.throw(GAME_ALREADY_STARTED)
+
+            # Démarrage de la partie
+            game.start()
+
+            return {'status': 'ok'}
+
+    def __client_action_guess(self):
         """
         Appelé par le client Web lorsqu'il devine des coordonnées.
         """
@@ -64,7 +88,27 @@ class RestProvider:
 
             return {'status': 'ok'}
 
-    def __client_move(self):
+    def __client_action_update_guess(self):
+        """
+        Appelé par le client Web lorsqu'il devine des coordonnées.
+        """
+        @self.__app.patch("/client/action/update_guess")
+        async def action(model: ClientActionGuessModel, _: Request):
+
+            if not ClientManager().does_client_token_exists(model.client_id):
+                ErrorCode.throw(CLIENT_BAD_TOKEN)
+
+            client = ClientManager().get_client_by_token(model.client_id)
+            game = GameManager().get_game_for_client(client)
+
+            if not game.is_started:
+                ErrorCode.throw(GAME_NOT_STARTED)
+
+            game.update_current_guess(model.x, model.y)
+
+            return {'status': 'ok'}
+
+    def __client_action_move(self):
         """
         Appelé par le client Web lorsqu'il se déplace en jeu.
         """
@@ -104,7 +148,7 @@ class RestProvider:
 
             return {'status': 'ok'}
 
-    def __client_back_to_start(self):
+    def __client_action_back_to_start(self):
         """
         Appelé par le client Web lorsqu'il veut revenir au point de départ.
         """

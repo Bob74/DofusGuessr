@@ -51,5 +51,8 @@ CLIENT_BAD_TOKEN = ErrorCode(name='CLIENT_BAD_TOKEN', internal_code=0x00000102, 
 GAME_NOT_STARTED = ErrorCode(name='GAME_NOT_STARTED', internal_code=0x00000201, http_code=500,
                              label="Game is not started")
 
+GAME_ALREADY_STARTED = ErrorCode(name='GAME_ALREADY_STARTED', internal_code=0x00000202, http_code=500,
+                                 label="Game is already started")
+
 MAP_DOES_NOT_EXISTS = ErrorCode(name='MAP_DOES_NOT_EXISTS', internal_code=0x00000301, http_code=404,
                                 label="Map does not exists")
