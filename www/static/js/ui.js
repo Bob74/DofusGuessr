@@ -15,17 +15,17 @@ export default class Ui {
         // this.bottomContainer = document.getElementById('bottom-container');
         this.sidebarFooter = document.querySelector('.sidebar-footer');
         // Désactivation du DragScroll quand on survol l'élément
-        this.sidebarFooter.addEventListener('mouseover', this.scrollableMouseOver);
+        this.sidebarFooter.addEventListener('mouseover', this.disableDragscroll);
 
         // Activation du DragScroll quand on survol l'élément
-        this.sidebarFooter.addEventListener('mouseout', this.scrollableMouseOut);
+        this.sidebarFooter.addEventListener('mouseout', this.enableDragscroll);
         
     }
 
     /*
     * Désactivation du DragScroll sur la page entière.
     */
-    scrollableMouseOver() {
+    disableDragscroll() {
         document.body.classList.remove('dragscroll');
         dragscroll.reset();
     }
@@ -33,7 +33,7 @@ export default class Ui {
     /*
     * Activation du DragScroll sur la page entière.
     */
-    scrollableMouseOut() {
+    enableDragscroll() {
         document.body.classList.add('dragscroll');
         dragscroll.reset();
     }

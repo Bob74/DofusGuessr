@@ -115,6 +115,15 @@ export default class Game {
 
         // Affichage du message de fin de partie        
         this.endgameContainer.hidden = false;
+
+        // On laisse le joueur se déplacer sur la carte en fin de partie
+        this.ui.enableDragscroll();
+
+        // Application du style CSS à la case de la bonne réponse
+        // todo
+        
+        // Scroll jusqu'aux coordonnées de la bonne réponse
+        // todo
     }
 
     move(direction) {
