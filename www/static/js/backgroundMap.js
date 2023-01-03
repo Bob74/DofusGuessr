@@ -94,7 +94,7 @@ export default class BackgroundMap {
         
         // Application du CSS
         this.selectedCell.classList.add("selected-cell");
-        this.selectedCell.innerHTML = "X";
+        this.selectedCell.innerHTML = "?";
 
         // Ecriture des coordonnées dans les inputs
         this.game.setCoordinates(

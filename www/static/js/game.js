@@ -134,7 +134,7 @@ export default class Game {
     }
 
     backToStart() {
-        sendRestMessage("PATCH", "/client/action/back-to-start", JSON.stringify({
+        sendRestMessage("PATCH", "/client/action/back_to_start", JSON.stringify({
             "client_id": this.clientId
         }));
     }
