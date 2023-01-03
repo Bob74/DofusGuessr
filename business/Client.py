@@ -76,5 +76,8 @@ class Client:
                f"Is Ready: {self.is_ready}\n" \
                f"IP and port: {self.host}:{self.port}"
 
+    def __del__(self):
+        self.close()
+
     def __str__(self) -> str:
         return f"{self.host}:{self.port}"

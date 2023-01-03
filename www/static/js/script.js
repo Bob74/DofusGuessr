@@ -5,18 +5,6 @@ import Game from "./game.js";
 let ws;
 let game;
 
-let div_targeted = document.getElementById('guess-container');
-div_targeted.addEventListener('mouseover', function(){
-    document.body.classList.remove('dragscroll');
-    dragscroll.reset()
-});
-
-div_targeted.addEventListener('mouseout', function(){
-    document.body.classList.add('dragscroll');
-    dragscroll.reset()
-});
-
-
 function setupWebsocket() {
     ws = new WebSocket("ws://127.0.0.1:8090/ws");
 
@@ -33,15 +21,29 @@ function setupWebsocket() {
             switch (message.msg_type) {
                 case 'GameConnectMessage':
                     // Création de la game
-                    game = new Game(message.client_id, "game-container");
+                    game = new Game(message.client_id);
+                    break;
+                case 'GameOptionsMessage':
+                    // Options de la partie
+                    game.setBackground(message.background.file_path, message.background.height, message.background.width);
+                    game.setInitialGameTime(message.game.initial_time);
+                    break;
+                case 'GameUpdateBackgroundMessage':
+                    // Update de l'image de fond (map full)
+                    game.setBackground(message.file_path, message.height, message.width);
                     break;
                 case 'GameUpdateImageMessage':
                     // Update de l'image envoyée
-                    game.updateImg(message.map_file);
+                    game.setImg(message.map_file);
+                    break;
+                case 'GameStartMessage':
+                    // Début de la partie
+                    game.setImg(message.map_file);
+                    game.start();
                     break;
                 case 'GameEndMessage':
                     // Fin de partie
-                    game.end(message.score, message.elapsed_time);
+                    game.end(message.score, message.remaining_time);
                     break;
                 case 'GameHintAreaMessage':
                     // Indice : Nom de la zone

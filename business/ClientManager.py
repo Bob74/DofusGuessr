@@ -53,3 +53,10 @@ class ClientManager(metaclass=SingletonABCMeta):
         Retourne les clients.
         """
         return tuple(self._CLIENTS.values())
+
+    def delete_client(self, token: str):
+        """
+        Supprime le client de la liste.
+        """
+        if token in self._CLIENTS:
+            del self._CLIENTS[token]
