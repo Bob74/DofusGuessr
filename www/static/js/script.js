@@ -43,7 +43,7 @@ function setupWebsocket() {
                     break;
                 case 'GameEndMessage':
                     // Fin de partie
-                    game.end(message.score, message.elapsed_time);
+                    game.end(message.score, message.remaining_time);
                     break;
                 case 'GameHintAreaMessage':
                     // Indice : Nom de la zone
