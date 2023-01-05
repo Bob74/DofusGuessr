@@ -50,3 +50,10 @@
     color: white;
     background-color: #CC00CCCC;
 }
+
+.winning-cell {
+    font-family: "Luckiest Guy", cursive;
+    text-align: center;
+    color: white;
+    background-color: #00CC00CC;
+}

@@ -16,7 +16,6 @@ function setupWebsocket() {
     // Écoute des messages entrant
     ws.addEventListener('message', (event) => {
         const message = JSON.parse(event.data);
-        console.log(message);
         if ('msg_type' in message) {
             switch (message.msg_type) {
                 case 'GameConnectMessage':
@@ -43,7 +42,7 @@ function setupWebsocket() {
                     break;
                 case 'GameEndMessage':
                     // Fin de partie
-                    game.end(message.score, message.remaining_time);
+                    game.end(message.score, message.remaining_time, message.winning_x, message.winning_y);
                     break;
                 case 'GameHintAreaMessage':
                     // Indice : Nom de la zone

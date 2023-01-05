@@ -47,7 +47,8 @@ export default class Game {
 
         /* Endgame */
         this.endgameContainer = document.getElementById("endgame-container")
-        this.endgameMessage = this.endgameContainer.querySelector("#endgame-message")
+        this.endgameMessageL1 = this.endgameContainer.querySelector("#endgame-message-l1")
+        this.endgameMessageL2 = this.endgameContainer.querySelector("#endgame-message-l2")
         this.buttonRestart = this.endgameContainer.querySelector("#button-restart")
         this.buttonRestart.onclick = this.restart.bind(this);
 
@@ -71,6 +72,10 @@ export default class Game {
         }));
     }
 
+    getClientId() {
+        return this.clientId;
+    }
+
     setImg(imgPath) {
         this.sidebarContainer.querySelector("#map-img").src = imgPath;
     }
@@ -92,7 +97,7 @@ export default class Game {
         this.informations.setHidden(false);
 
         // Scroll au centre de l'image de fond
-        this.backgroundMap.scrollToMiddle();
+        this.backgroundMap.scrollTo();
 
         // Masquer l'overlay de démarrage
         this.gameStartContainer.hidden = true;
@@ -101,7 +106,7 @@ export default class Game {
         this.gameTimer = setInterval(() => this.decreaseTimer(), 1000);
     }
 
-    end(score, elapsedTime) {
+    end(score, elapsedTime, winning_x, winning_y) {
         // Stop du timer
         clearInterval(this.gameTimer);
         this.informations.updateTimerText(0);
@@ -111,7 +116,8 @@ export default class Game {
         this.hints.setUiDisabled(true);
         
         // Maj du message de fin
-        this.endgameMessage.innerHTML = `Score final : ${score} (Temps restant : ${elapsedTime})`;
+        this.endgameMessageL1.innerHTML = `Score final : ${score} (Temps restant : ${elapsedTime})`;
+        this.endgameMessageL2.innerHTML = `La bonne réponse était : ${winning_x},${winning_y}`;
 
         // Affichage du message de fin de partie        
         this.endgameContainer.hidden = false;
@@ -119,11 +125,8 @@ export default class Game {
         // On laisse le joueur se déplacer sur la carte en fin de partie
         this.ui.enableDragscroll();
 
-        // Application du style CSS à la case de la bonne réponse
-        // todo
-        
-        // Scroll jusqu'aux coordonnées de la bonne réponse
-        // todo
+        // On affiche la cellule gagnante
+        this.backgroundMap.setWinningCell(winning_x, winning_y);
     }
 
     move(direction) {
@@ -141,9 +144,7 @@ export default class Game {
 
     guess() {
         sendRestMessage("PATCH", "/client/action/guess", JSON.stringify({
-            "client_id": this.clientId,
-            "x": this.guessFieldX.value,
-            "y": this.guessFieldY.value
+            "client_id": this.clientId
         }));
     }
 
