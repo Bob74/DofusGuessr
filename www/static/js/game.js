@@ -46,19 +46,20 @@ export default class Game {
         this.buttonGuess.onclick = this.guess.bind(this);
 
         /* Endgame */
-        this.endgameContainer = document.getElementById("endgame-container")
+        this.endgameContainer = document.getElementById("endgame-container");
         this.endgameMessageL1 = this.endgameContainer.querySelector("#endgame-message-l1")
         this.endgameMessageL2 = this.endgameContainer.querySelector("#endgame-message-l2")
         this.buttonRestart = this.endgameContainer.querySelector("#button-restart")
         this.buttonRestart.onclick = this.restart.bind(this);
 
         /* Indices */
-        this.buttonHintAreaName = this.sidebarContainer.querySelector("#button-hint-area-name");
+        this.hintsContainer = document.getElementById("hints-container");
+        this.buttonHintAreaName = this.hintsContainer.querySelector("#button-hint-area-name");
         this.buttonHintAreaName.onclick = this.askAreaNameHint.bind(this);
 
         /* Création de classes */
         this.ui;
-        this.hints = new Hints(this.clientId, this.sidebarContainer, "hints-container");
+        this.hints = new Hints(this.clientId, this.hintsContainer);
         this.backgroundMap = new BackgroundMap(this, "background-container");
         this.informations = new Informations(this, "informations-container");
 
@@ -94,6 +95,7 @@ export default class Game {
         // Afficher l'interface sidebar + background + informations
         this.backgroundMap.setHidden(false);
         this.sidebarContainer.hidden = false;
+        this.hints.setHidden(false);
         this.informations.setHidden(false);
 
         // Scroll au centre de l'image de fond
