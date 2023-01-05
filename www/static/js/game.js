@@ -47,7 +47,8 @@ export default class Game {
 
         /* Endgame */
         this.endgameContainer = document.getElementById("endgame-container")
-        this.endgameMessage = this.endgameContainer.querySelector("#endgame-message")
+        this.endgameMessageL1 = this.endgameContainer.querySelector("#endgame-message-l1")
+        this.endgameMessageL2 = this.endgameContainer.querySelector("#endgame-message-l2")
         this.buttonRestart = this.endgameContainer.querySelector("#button-restart")
         this.buttonRestart.onclick = this.restart.bind(this);
 
@@ -115,7 +116,8 @@ export default class Game {
         this.hints.setUiDisabled(true);
         
         // Maj du message de fin
-        this.endgameMessage.innerHTML = `Score final : ${score} (Temps restant : ${elapsedTime})`;
+        this.endgameMessageL1.innerHTML = `Score final : ${score} (Temps restant : ${elapsedTime})`;
+        this.endgameMessageL2.innerHTML = `La bonne réponse était : ${winning_x},${winning_y}`;
 
         // Affichage du message de fin de partie        
         this.endgameContainer.hidden = false;
