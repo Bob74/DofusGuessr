@@ -6,6 +6,7 @@ from business.ClientManager import ClientManager
 from provider.rest.models.ClientActionReadyModel import ClientActionReadyModel
 from provider.rest.models.ClientActionStartModel import ClientActionStartModel
 from provider.rest.models.ClientActionGuessModel import ClientActionGuessModel
+from provider.rest.models.ClientActionUpdateGuessModel import ClientActionUpdateGuessModel
 from provider.rest.models.ClientActionMoveModel import ClientActionMoveModel
 from provider.rest.models.ClientActionBackToStartModel import ClientActionBackToStartModel
 from provider.rest.models.ClientActionHintModel import ClientActionHintModel
@@ -84,7 +85,7 @@ class RestProvider:
             if not game.is_started:
                 ErrorCode.throw(GAME_NOT_STARTED)
 
-            game.guess(model.x, model.y)
+            game.guess()
 
             return {'status': 'ok'}
 
@@ -93,7 +94,7 @@ class RestProvider:
         Appelé par le client Web lorsqu'il devine des coordonnées.
         """
         @self.__app.patch("/client/action/update_guess")
-        async def action(model: ClientActionGuessModel, _: Request):
+        async def action(model: ClientActionUpdateGuessModel, _: Request):
 
             if not ClientManager().does_client_token_exists(model.client_id):
                 ErrorCode.throw(CLIENT_BAD_TOKEN)

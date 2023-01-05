@@ -161,7 +161,14 @@ class Game:
         self._is_started = False
 
         # Envoi du message de fin de partie au client
-        self.send_client_message(GameEndMessage(score=self._score, remaining_time=str(self.timer_remaining_time)))
+        self.send_client_message(
+            GameEndMessage(
+                score=self._score,
+                remaining_time=str(self.timer_remaining_time),
+                winning_x=self.map_start.x,
+                winning_y=self.map_start.y
+            )
+        )
         ClientManager().delete_client(self._client.id)
 
     def thread_timer(self, e: Event):
@@ -189,15 +196,14 @@ class Game:
         """
         Met à jour les coordonnées devinées par le joueur.
         """
-        self.current_guess_x = guess_x
-        self.current_guess_y = guess_y
+        self._current_guess_x = guess_x
+        self._current_guess_y = guess_y
 
-    def guess(self, guess_x: int, guess_y: int):
+    def guess(self):
         """
         Termine la partie et envoie le score au front.
         """
-        self._score = self.compute_game_points(guess_x, guess_y)
-        logging.debug(f"Score du joueur {self.client.host}:{self.client.port} : {self._score}")
+        self._score = self.compute_game_points(self.current_guess_x, self.current_guess_y)
         self.stop()
 
     def compute_game_points(self, guess_x: int, guess_y: int) -> int:

@@ -6,6 +6,8 @@ from provider.websocket.messages.IGameBaseMessage import IGameBaseMessage
 class GameEndMessage(IGameBaseMessage):
     score: int
     remaining_time: str
+    winning_x: int
+    winning_y: int
     game_status: str = field(default="end")
     msg_type: str = field(default="GameEndMessage")
 
@@ -14,5 +16,7 @@ class GameEndMessage(IGameBaseMessage):
             'msg_type': self.msg_type,
             'score': self.score,
             'remaining_time': self.remaining_time,
+            'winning_x': self.winning_x,
+            'winning_y': self.winning_y,
             'game_status': self.game_status
         }
