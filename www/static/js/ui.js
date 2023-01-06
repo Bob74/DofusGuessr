@@ -2,24 +2,24 @@
 
 export default class Ui {
 
-    constructor(game) {
+    constructor(game, gameContainer) {
         this.game = game;
+        this.gameContainer = gameContainer;
+        this.rootCss = document.querySelector(':root');
 
         /* Configuration du zoom de l'aperçu de map */
-        this.isSidebarEnlarged = false;
-        this.sidebarInitialWidth = document.documentElement.style.getPropertyValue('--sidebar-width');
-        this.sidebarButtonEnlarge = document.getElementById("button-sidebar-enlarge");
-        this.sidebarButtonEnlarge.onclick = this.toggleEnlargedSidebar.bind(this);
+        this.isGameContainerEnlarged = false;
+        this.gameContainerWidthMin = getComputedStyle(this.rootCss).getPropertyValue('--game-container-width-min');
+        this.gameContainerWidthMax = getComputedStyle(this.rootCss).getPropertyValue('--game-container-width-max');
+        this.gameContainerButtonEnlarge = document.getElementById("button-game-container-enlarge");
+        this.gameContainerButtonEnlarge.onclick = this.toggleEnlargedGame.bind(this);
         
         /* Configuration du Drag and Scroll de la page */
-        // this.bottomContainer = document.getElementById('bottom-container');
-        this.sidebarFooter = document.querySelector('.sidebar-footer');
         // Désactivation du DragScroll quand on survol l'élément
-        this.sidebarFooter.addEventListener('mouseover', this.disableDragscroll);
+        this.gameContainer.addEventListener('mouseover', this.disableDragscroll);
 
         // Activation du DragScroll quand on survol l'élément
-        this.sidebarFooter.addEventListener('mouseout', this.enableDragscroll);
-        
+        this.gameContainer.addEventListener('mouseout', this.enableDragscroll);
     }
 
     /*
@@ -39,17 +39,26 @@ export default class Ui {
     }
 
     /*
-    * Agrandi la sidebar pour que l'image de la map à localiser soit plus grande
+    * Agrandi la game-container pour que l'image de la map à localiser soit plus grande
     */
-    toggleEnlargedSidebar() {
-        if (this.isSidebarEnlarged) {
-            document.documentElement.style.setProperty('--sidebar-width', this.sidebarInitialWidth);
-            this.sidebarButtonEnlarge.value = "➕";
-            this.isSidebarEnlarged = false;
+    toggleEnlargedGame() {
+        if (this.isGameContainerEnlarged) {
+            this.setMinimizedGame();
         } else {
-            document.documentElement.style.setProperty('--sidebar-width', '50%');
-            this.sidebarButtonEnlarge.value = "➖";
-            this.isSidebarEnlarged = true;
+            this.setMaximizedGame();
         }
     }
+
+    setMaximizedGame() {
+        this.rootCss.style.setProperty('--game-container-width-current', this.gameContainerWidthMax);
+        this.gameContainerButtonEnlarge.value = "➖";
+        this.isGameContainerEnlarged = true;
+    }
+    
+    setMinimizedGame() {
+        this.rootCss.style.setProperty('--game-container-width-current', this.gameContainerWidthMin);
+        this.gameContainerButtonEnlarge.value = "➕";
+        this.isGameContainerEnlarged = false;
+    }
+
 }

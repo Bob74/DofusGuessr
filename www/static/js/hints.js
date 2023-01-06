@@ -3,15 +3,20 @@ import sendRestMessage from "./rest.js";
 'use strict';
 
 export default class Hints {
-    constructor(clientId, sidebarContainer, hintsContainerId) {
+    constructor(clientId, hintsContainer) {
         this.clientId = clientId;
-        this.sidebarContainer = sidebarContainer;
-        this.hintsContainer = this.sidebarContainer.querySelector(`#${hintsContainerId}`);
+        this.hintsContainer = hintsContainer;
 
         /* Indice AreaName : Afficher la zone de la map */
         this.areaNameEndpoint = "/client/hint/action/area"
-        this.buttonHintAreaName = this.sidebarContainer.querySelector("#button-hint-area-name");
+        this.buttonHintAreaName = this.hintsContainer.querySelector("#button-hint-area-name");
         this.isAreaNameEnabled = false;
+    }
+    /*
+    * Affiche ou masque la partie Indices
+    */
+    setHidden(state) {
+        this.hintsContainer.hidden = state;
     }
 
     askAreaName() {
@@ -27,7 +32,7 @@ export default class Hints {
     }
 
     showAreaName(areaName) {
-        const areaNameElement = this.sidebarContainer.querySelector("#hint-area-name");
+        const areaNameElement = this.hintsContainer.querySelector("#hint-area-name");
         areaNameElement.innerHTML = `Votre zone de départ est : ${areaName}`;
         areaNameElement.hidden = false;
     }

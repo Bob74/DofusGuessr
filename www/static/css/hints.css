@@ -1,7 +1,10 @@
 
 #hints-container {
     /* background-color: aqua; */
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 15vw;
     padding: 10px;
 }
 
