@@ -1,7 +1,7 @@
 
-#gamestart-container {
+#startgame-container {
     position: fixed;
-    background-color: #4A5053FF;
+    background-color: rgb(68, 47, 27);
     color: #ffffff;
     font-family: Arial;
     font-size: 16pt;

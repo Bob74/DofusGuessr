@@ -5,8 +5,7 @@
         <title>DofusGuessr</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Luckiest+Guy"/>
         <link rel="stylesheet" href="static/css/styles.css"/>
-        <link rel="stylesheet" href="static/css/gamestart.css"/>
-        <link rel="stylesheet" href="static/css/sidebar.css"/>
+        <link rel="stylesheet" href="static/css/startgame.css"/>
         <link rel="stylesheet" href="static/css/backgroundMap.css"/>
         <link rel="stylesheet" href="static/css/game.css"/>
         <link rel="stylesheet" href="static/css/guess.css"/>
@@ -16,7 +15,8 @@
     </head>
     <body class="dragscroll">
 
-        <div id="gamestart-container" class="unselectable">
+        <div id="startgame-container" class="unselectable">
+            <img id="map-img" src="static/img/gfx/logo.png" style="width: 923px;"/>
             <p>Partie de GeoGuessr sur Dofus Retro</p>
             <p>5 minutes de temps</p>
             <input id="button-start" type="button" value="Démarrer !"/>
@@ -49,51 +49,44 @@
             </div>
         </div>
 
-        <div id="sidebar" hidden>
-            <div class="sidebar-header">
+        <div id="game-container" hidden>
+            <table id="game-grid" class="unselectable">
+                <tbody>
+                    <tr>
+                        <td class="grid-col-left"></td>
+                        <td class="grid-col-center"><input id="button-up" type="button" value="⬆"/></td>
+                        <td style="text-align: right;"><input id="button-game-container-enlarge" type="button" title="Agrandir" value="➕"/></td>
+                    </tr>
+                    <tr>
+                        <td class="grid-col-left"><input id="button-left" type="button" value="⬅"/></td>
+                        <td class="grid-col-center">
+                            <img id="map-img" src="static/img/gfx/book.png"/>
+                        </td>
+                        <td class="grid-col-right"><input id="button-right" type="button" value="➡"/></td>
+                    </tr>
+                    <tr>
+                        <td class="grid-col-left"></td>
+                        <td class="grid-col-center"><input id="button-down" type="button" value="⬇"/></td>
+                        <td style="text-align: right;"></td>
+                    </tr>
+                </tbody>
+            </table>
 
-            </div>
-
-            <div class="sidebar-footer">
-                <table id="game-grid" class="unselectable">
+            <div id="guess-container" class="unselectable">
+                <table id="guess-grid">
                     <tbody>
                         <tr>
-                            <td class="grid-col-left"></td>
-                            <td class="grid-col-center"><input id="button-up" type="button" value="⬆"/></td>
-                            <td style="text-align: right;"><input id="button-sidebar-enlarge" type="button" title="Agrandir" value="➕"/></td>
-                        </tr>
-                        <tr>
-                            <td class="grid-col-left"><input id="button-left" type="button" value="⬅"/></td>
-                            <td class="grid-col-center">
-                                <img id="map-img" src="https://petitstream.com/images/train.gif"/>
+                            <td>
+                                <input id="button-back-to-start" type="button" title="Retour au départ" value="🔙"/>
                             </td>
-                            <td class="grid-col-right"><input id="button-right" type="button" value="➡"/></td>
-                        </tr>
-                        <tr>
-                            <td class="grid-col-left"></td>
-                            <td class="grid-col-center"><input id="button-down" type="button" value="⬇"/></td>
-                            <td style="text-align: right;"></td>
+                            <td>
+                                <span id="guess-x-text">X </span><input id="guess-x-input" class="guess-input" type="number" disabled/>
+                                <span id="guess-y-text">Y </span><input id="guess-y-input" class="guess-input" type="number" disabled/>
+                                <input id="button-guess" type="button" value="Guess ! 🚩"/>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-
-                <div id="guess-container" class="unselectable">
-                    <table id="guess-grid">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input id="button-back-to-start" type="button" title="Retour au départ" value="🔙"/>
-                                </td>
-                                <td>
-                                    <span id="guess-x-text">X </span><input id="guess-x-input" class="guess-input" type="number"/>
-                                    <span id="guess-y-text">Y </span><input id="guess-y-input" class="guess-input" type="number"/>
-                                    <input id="button-guess" type="button" value="Guess ! 🚩"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
             </div>
         </div>
 

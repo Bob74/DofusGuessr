@@ -16,8 +16,8 @@ export default class Game {
 
         
         /* Start screen */
-        this.gameStartContainer = document.getElementById("gamestart-container");
-        this.buttonStartGame = this.gameStartContainer.querySelector("#button-start");
+        this.startGameContainer = document.getElementById("startgame-container");
+        this.buttonStartGame = this.startGameContainer.querySelector("#button-start");
         this.buttonStartGame.onclick = this.readyToStart.bind(this);
 
         /* Timer */
@@ -25,24 +25,24 @@ export default class Game {
         this.gameTimeInitialSec;
         this.gameTimeRemainingSec;
 
-        /* Sidebar */
-        this.sidebarContainer = document.getElementById("sidebar");
+        /* GameContainer */
+        this.gameContainer = document.getElementById("game-container");
 
-        this.buttonUp = this.sidebarContainer.querySelector("#button-up");
+        this.buttonUp = this.gameContainer.querySelector("#button-up");
         this.buttonUp.onclick = this.move.bind(this, "up");
-        this.buttonDown = this.sidebarContainer.querySelector("#button-down");
+        this.buttonDown = this.gameContainer.querySelector("#button-down");
         this.buttonDown.onclick = this.move.bind(this, "down");
-        this.buttonLeft = this.sidebarContainer.querySelector("#button-left");
+        this.buttonLeft = this.gameContainer.querySelector("#button-left");
         this.buttonLeft.onclick = this.move.bind(this, "left");
-        this.buttonRight = this.sidebarContainer.querySelector("#button-right");
+        this.buttonRight = this.gameContainer.querySelector("#button-right");
         this.buttonRight.onclick = this.move.bind(this, "right");
 
-        this.buttonBackToStart = this.sidebarContainer.querySelector("#button-back-to-start");
+        this.buttonBackToStart = this.gameContainer.querySelector("#button-back-to-start");
         this.buttonBackToStart.onclick = this.backToStart.bind(this);
 
-        this.guessFieldX = this.sidebarContainer.querySelector("#guess-x-input");
-        this.guessFieldY = this.sidebarContainer.querySelector("#guess-y-input");
-        this.buttonGuess = this.sidebarContainer.querySelector("#button-guess");
+        this.guessFieldX = this.gameContainer.querySelector("#guess-x-input");
+        this.guessFieldY = this.gameContainer.querySelector("#guess-y-input");
+        this.buttonGuess = this.gameContainer.querySelector("#button-guess");
         this.buttonGuess.onclick = this.guess.bind(this);
 
         /* Endgame */
@@ -78,7 +78,7 @@ export default class Game {
     }
 
     setImg(imgPath) {
-        this.sidebarContainer.querySelector("#map-img").src = imgPath;
+        this.gameContainer.querySelector("#map-img").src = imgPath;
     }
 
     readyToStart() {
@@ -92,9 +92,9 @@ export default class Game {
         this.setUiDisabled(false);
         this.hints.setUiDisabled(false);
 
-        // Afficher l'interface sidebar + background + informations
+        // Afficher l'interface game-container + background + informations
         this.backgroundMap.setHidden(false);
-        this.sidebarContainer.hidden = false;
+        this.gameContainer.hidden = false;
         this.hints.setHidden(false);
         this.informations.setHidden(false);
 
@@ -102,7 +102,7 @@ export default class Game {
         this.backgroundMap.scrollTo();
 
         // Masquer l'overlay de démarrage
-        this.gameStartContainer.hidden = true;
+        this.startGameContainer.hidden = true;
 
         // Démarrage du timer
         this.gameTimer = setInterval(() => this.decreaseTimer(), 1000);
@@ -112,7 +112,10 @@ export default class Game {
         // Stop du timer
         clearInterval(this.gameTimer);
         this.informations.updateTimerText(0);
-                
+        
+        // Réduction de l'interface
+        this.ui.setMinimizedGame();
+        
         // Désactivation de l'interface de jeu
         this.setUiDisabled(true);
         this.hints.setUiDisabled(true);
@@ -181,8 +184,8 @@ export default class Game {
         this.buttonBackToStart.disabled = state;
 
         // Désactivation de la partie Guess
-        this.guessFieldX.disabled = state;
-        this.guessFieldY.disabled = state;
+        // this.guessFieldX.disabled = state;
+        // this.guessFieldY.disabled = state;
         this.buttonGuess.disabled = state;
     }
 
@@ -207,7 +210,7 @@ export default class Game {
     setBackground(bgPath, height, width) {
         this.backgroundMap.setBackground(bgPath, height, width);
         if (!this.ui) {
-            this.ui = new Ui(this);
+            this.ui = new Ui(this, this.gameContainer);
         }
     }
 
