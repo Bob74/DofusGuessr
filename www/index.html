@@ -7,11 +7,12 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
         <link rel="stylesheet" href="static/css/bootstrap.min.css">
         <link rel="stylesheet" href="static/css/style.css">
+        <link rel="stylesheet" href="static/css/backgroundMap.css">
         <link rel="stylesheet" href="static/css/startgame.css">
     </head>
-    <body data-bs-theme="dark">
+    <body class="dragscroll" data-bs-theme="dark">
 
-        <div id="startgame-container" class="unselectable container-fluid" hidden>
+        <div id="startgame-container" class="unselectable container-fluid">
             <div class="row justify-content-md-center">
                 <div class="col-md-auto">
                     <img id="map-img" class="startgame-logo" src="static/img/gfx/logo.png"/>
@@ -43,7 +44,7 @@
             </div>
         </div>
 
-        <div id="endgame-container" class="unselectable">
+        <div id="endgame-container" class="unselectable" hidden>
             <table id="endgame-grid">
                 <tbody>
                     <tr>
@@ -56,9 +57,9 @@
             </table>
         </div>
 
-        <div id="background-container" class="container-fluid" hidden>
-            <table id="background-grid" class="unselectable"></table>
+        <div id="background-container" hidden>
             <img id="background-map" class="unselectable">
+            <table id="background-grid" class="unselectable"></table>
         </div>
         
         <div id="hints-container" hidden>
@@ -117,6 +118,9 @@
             <span class="informations-text">Temps restant : </span><span id="informations-timer" class="informations-text">00:00</span>
         </div>
 
+        <!-- <script src="https://unpkg.com/scrollbooster@2/dist/scrollbooster.min.js"></script> -->
         <script src="static/js/bootstrap.bundle.min.js"></script>
+        <script src="static/js/dragscroll/dragscroll.js"></script>
+        <script type="module" src="static/js/script.js"></script>
     </body>
 </html>

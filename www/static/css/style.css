@@ -29,13 +29,6 @@ body {
     display: none !important;
 } 
 
-.bg-block-rounded {
-    background-color: #0c0a05;
-    padding: 10px;
-    border-radius: 30px;
-    backdrop-filter: blur(2px);
-}
-
 .btn-dofus {
     background-color: sienna;
 }

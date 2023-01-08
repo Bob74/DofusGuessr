@@ -15,12 +15,49 @@ export default class Ui {
         this.gameContainerButtonEnlarge.onclick = this.toggleEnlargedGame.bind(this);
         
         /* Configuration du Drag and Scroll de la page */
+
         // Désactivation du DragScroll quand on survol l'élément
-        this.gameContainer.addEventListener('mouseover', this.disableDragscroll);
+        // this.gameContainer.addEventListener('mouseover', this.disableDragscroll);
 
         // Activation du DragScroll quand on survol l'élément
-        this.gameContainer.addEventListener('mouseout', this.enableDragscroll);
+        // this.gameContainer.addEventListener('mouseout', this.enableDragscroll);
+
+        let pos = { top: 0, left: 0, x: 0, y: 0 };
+
+
+        const ele = document.getElementById('background-container');
+        ele.scrollTop = 100;
+        ele.scrollLeft = 150;
+
+
+        const mouseDownHandler = function (e) {
+            pos = {
+                // The current scroll
+                left: ele.scrollLeft,
+                top: ele.scrollTop,
+                // Get the current mouse position
+                x: e.clientX,
+                y: e.clientY,
+            };
+
+            document.addEventListener('mousemove', mouseMoveHandler);
+            // document.addEventListener('mouseup', mouseUpHandler);
+        };
+
+        const mouseMoveHandler = function (e) {
+            // How far the mouse has been moved
+            const dx = e.clientX - pos.x;
+            const dy = e.clientY - pos.y;
+        
+            // Scroll the element
+            ele.scrollTop = pos.top - dy;
+            ele.scrollLeft = pos.left - dx;
+        };
+
+        ele.onmousedown = mouseDownHandler;
+
     }
+
 
     /*
     * Désactivation du DragScroll sur la page entière.
