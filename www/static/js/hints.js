@@ -10,7 +10,7 @@ export default class Hints {
         /* Indice AreaName : Afficher la zone de la map */
         this.areaNameEndpoint = "/client/hint/action/area"
         this.buttonHintAreaName = this.hintsContainer.querySelector("#button-hint-area-name");
-        this.isAreaNameEnabled = false;
+        this.isAreaNameAsked = false;
     }
     /*
     * Affiche ou masque la partie Indices
@@ -20,21 +20,19 @@ export default class Hints {
     }
 
     askAreaName() {
-        if (!this.isAreaNameEnabled) {
+        if (!this.isAreaNameAsked) {
             if (confirm("Êtes-vous sûr de vouloir un indice sur la zone contre une pénalité de 500 points ?")) {
                 sendRestMessage("PATCH", this.areaNameEndpoint, JSON.stringify({
                     "client_id": this.clientId
                 }));
                 this.buttonHintAreaName.disabled = true;
-                this.isAreaNameEnabled = true;
+                this.isAreaNameAsked = true;
             }
         }
     }
 
     showAreaName(areaName) {
-        const areaNameElement = this.hintsContainer.querySelector("#hint-area-name");
-        areaNameElement.innerHTML = `Votre zone de départ est : ${areaName}`;
-        areaNameElement.hidden = false;
+        alert(`Votre zone de départ est : ${areaName}`);
     }
 
     setUiDisabled(state) {

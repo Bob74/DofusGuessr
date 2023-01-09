@@ -11,7 +11,7 @@
     z-index: 1;
 }
 
-#informations-container > h1 {
+/* #informations-container > h1 {
     font-family: "Luckiest Guy", cursive;
     text-align: right;
     margin: 0;
@@ -29,4 +29,14 @@
     text-align: left;
     margin: 0;
     padding: 0;
+} */
+
+.informations-list {
+    font-size: 14pt;
+    list-style-type: none;
+    color: white;
+}
+
+.informations-icon {
+    font-size: 1rem;
 }

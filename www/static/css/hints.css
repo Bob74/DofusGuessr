@@ -4,15 +4,33 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 15vw;
+    width: 33vw;
     padding: 10px;
 }
 
-#hints-buttons-container {
-    text-align: left;
+.btn-hint {
+    background-color: var(--btn-hint);
+    color: white;
+}
+.btn-hint:hover {
+    background-color: var(--btn-hint-hover);
+    color: white;
+}
+.btn-hint:disabled {
+    background-color: var(--btn-hint-disabled);
 }
 
-.hints-buttons {
+
+/* #hints-buttons-container {
+    text-align: left;
+} */
+
+/* .btn-hints {
+    max-height: 32px;
+    max-width: 100vw;
+} */
+
+/* .hints-buttons {
     background: linear-gradient(to bottom, #44c767 5%, #5cbf2a 100%);
     background-color: #44c767;
     border-radius: 42px;
@@ -35,4 +53,4 @@
 .hints-buttons:disabled {
     background: none;
     background-color:gray;
-}
+} */

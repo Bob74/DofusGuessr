@@ -38,9 +38,11 @@
     color: white;
 }
 
-.cell-base, ::after, ::before {
-    box-sizing: unset !important;
+.cell-base {
+    box-sizing: content-box !important;
 }
+
+
 .cell-base {
     --bs-gutter-x: 0;
     --bs-gutter-y: 0;

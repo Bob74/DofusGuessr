@@ -29,3 +29,16 @@
     border-radius: 30px;
     backdrop-filter: blur(2px);
 }
+
+.btn-dofus {
+    background-color: var(--btn-dofus);
+    color: white;
+}
+.btn-dofus:hover {
+    background-color: var(--btn-dofus-hover);
+    color: white;
+}
+.btn-dofus:disabled {
+    background-color: var(--btn-dofus-disabled);
+    color: white;
+}

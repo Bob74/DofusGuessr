@@ -1,3 +1,14 @@
+
+:root {
+    scroll-behavior: initial; /* Fix Bootstrap qui empêche le dragscroll */
+    --btn-dofus: sienna;
+    --btn-dofus-hover: rgb(212, 110, 62);
+    --btn-dofus-disabled: rgb(95, 77, 69);
+    --btn-hint: rgb(150, 0, 150);
+    --btn-hint-hover: rgb(173, 0, 173);
+    --btn-hint-disabled: rgb(92, 78, 92);
+}
+
 /* 
 h1 {
     font-family: "Luckiest Guy", cursive;
@@ -13,6 +24,8 @@ body {
     overflow: hidden;
     padding: 0;
     margin: 0;
+    scroll-behavior: initial;
+    -webkit-overflow-scrolling: touch;
 }
 
 .unselectable {
@@ -28,7 +41,3 @@ body {
 [hidden] {
     display: none !important;
 } 
-
-.btn-dofus {
-    background-color: sienna;
-}
