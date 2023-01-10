@@ -9,12 +9,13 @@
         <link rel="stylesheet" href="static/css/style.css">
         <link rel="stylesheet" href="static/css/backgroundMap.css">
         <link rel="stylesheet" href="static/css/startgame.css">
+        <link rel="stylesheet" href="static/css/game.css">
         <link rel="stylesheet" href="static/css/hints.css">
         <link rel="stylesheet" href="static/css/informations.css">
     </head>
     <body class="dragscroll" data-bs-theme="dark">
 
-        <div id="startgame-container" class="unselectable container-fluid" hidden>
+        <div id="startgame-container" class="container-fluid unselectable">
             <div class="row justify-content-md-center">
                 <div class="col-md-auto">
                     <img id="map-img" class="startgame-logo" src="static/img/gfx/logo.png"/>
@@ -23,7 +24,7 @@
             <div class="row justify-content-md-center">
                 <div class="col-md-auto" style="height: 10vh;"></div>
             </div>
-            <div class="container-sm bg-block-rounded">
+            <div class="container-sm startgame-block-rounded">
                 <div class="row justify-content-sm-center">
                     <div class="col-sm-auto">
                         <h1>Partie de DofusGuessr sur la map Dofus Retro</h1>
@@ -59,12 +60,12 @@
             </table>
         </div>
 
-        <div id="background-container" hidden>
-            <img id="background-map" class="unselectable">
-            <table id="background-grid" class="unselectable"></table>
+        <div id="background-container" class="unselectable" hidden>
+            <img id="background-map">
+            <table id="background-grid"></table>
         </div>
         
-        <div id="hints-container" class="unselectable">
+        <div id="hints-container" class="hints-block-rounded unselectable">
             <h1>Indices</h1>
             <div class="d-grid gap-2 d-md-block">
                 <button id="button-hint-area-name" class="btn btn-hint" type="submit">Zone <span class="badge text-bg-success">500pts</span></button>
@@ -72,8 +73,41 @@
             </div>
         </div>
 
-        <div id="game-container" class="container-sm" hidden>
-            <table id="game-grid" class="unselectable">
+        <div id="game-container" class="container-sm game-block-rounded unselectable">
+            <div class="row align-items-center g-0">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-8 text-center">
+                    <i id="button-up" class="bi-chevron-compact-up game-btn"></i>
+                </div>
+                <div class="col-sm-2 text-end">
+                    <i id="button-game-container-enlarge" class="bi-zoom-in game-btn"></i>
+                </div>
+            </div>
+            <div class="row align-items-center g-0">
+                <div class="col-sm-2 text-end">
+                    <i id="button-left" class="bi-chevron-compact-left game-btn"></i>
+                </div>
+                <div class="col-sm-8 text-center">
+                    <img id="map-img" src="static/img/gfx/book.png" class="unselectable"/>
+                </div>
+                <div class="col-sm-2 text-start">
+                    <i id="button-right" class="bi-chevron-compact-right game-btn"></i>
+                </div>
+            </div>
+            <div class="row align-items-center g-0">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-8 text-center">
+                    <i id="button-down" class="bi-chevron-compact-down game-btn"></i>
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+            </div>
+            <!-- <table id="game-grid" class="unselectable">
                 <tbody>
                     <tr>
                         <td class="grid-col-left"></td>
@@ -93,7 +127,7 @@
                         <td style="text-align: right;"></td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
 
             <div id="guess-container" class="unselectable" hidden>
                 <table id="guess-grid">
@@ -113,7 +147,7 @@
             </div>
         </div>
 
-        <div id="informations-container" class="unselectable">
+        <div id="informations-container" class="informations-block-rounded unselectable">
             <h1>Informations</h1>
             <div class="row justify-content-xl-left">
                 <div class="col-xl-auto">

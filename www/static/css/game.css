@@ -1,17 +1,76 @@
 :root {
-    --game-container-width-current: 20%;
-    --game-container-width-min: 20%;
-    --game-container-width-max: 40%;
+    --game-container-width-current: 20vw;
+    --game-container-width-min: 20vw;
+    --game-container-width-max: 40vw;
 }
 
 #game-container {
-    background-color: rgba(100, 100, 100, 0.5);
+    --bs-gutter-x: 0;
     width: var(--game-container-width-current);
-    position: fixed; /* Fixed game-container (stay in place on scroll) */
+    min-height: 120px;
+    position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 1; /* Stay on top */
-    overflow-x: hidden; /* Disable horizontal scroll */
+    /* padding: 10px; */
+    z-index: 1;
+}
+
+.game-block-rounded {
+    background-color: rgba(100, 100, 100, 0.5);
+    border-radius: 0 30px 0 0;
+    backdrop-filter: blur(2px);
+    opacity: 0.6;
+}
+.game-block-rounded:hover {
+    opacity: 1.0;
+}
+
+.grid-col-left {
+    text-align: right;
+}
+.grid-col-center {
+    text-align: center;
+}
+.grid-col-right {
+    text-align: left;
+}
+
+#map-img {
+    width: 100%;
+}
+
+.game-btn {
+    font-size: 3rem;
+    font-weight: bolder;
+    color: #FFF;
+}
+.game-btn:hover {
+    font-size: 3rem;
+    font-weight: bolder;
+    text-shadow: #FFF 1px 0 10px;
+}
+.game-btn.disabled, .game-btn[disabled], .disabled > .fa, [disabled] > .fa {
+  opacity: 0.5;
+  color: #AAA;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+#button-game-container-enlarge {
+    font-size: 2rem;
+    font-weight: bolder;
+    padding-right: 15px;
+}
+
+/* #game-container {
+    background-color: rgba(100, 100, 100, 0.5);
+    width: var(--game-container-width-current);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    overflow-x: hidden;
     display: inline-flex;
     flex-direction: column;
     opacity: 0.6;
@@ -32,10 +91,7 @@
     margin: 0;
 }
 
-#map-img {
-    width: 100%;
-    max-height: 100%;
-}
+
 
 .grid-col-left {
     text-align: right;
@@ -45,4 +101,4 @@
 }
 .grid-col-right {
     text-align: left;
-}
+} */

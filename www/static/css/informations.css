@@ -4,9 +4,11 @@
     position: fixed;
     text-align: left;
     width: auto;
+    max-width: 50vw;
     right: 0px;
     top: 0px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
     margin: 0;
     z-index: 1;
 }
@@ -39,4 +41,12 @@
 
 .informations-icon {
     font-size: 1rem;
+}
+
+.informations-block-rounded {
+    /* background-color: #aaaaaa; */
+    border-radius: 0 0 0 120px;
+    backdrop-filter: blur(2px);
+    padding-left: 30px;
+    padding-bottom: 10px;
 }
