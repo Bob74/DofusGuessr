@@ -166,7 +166,8 @@ class Game:
                 score=self._score,
                 remaining_time=str(self.timer_remaining_time),
                 winning_x=self.map_start.x,
-                winning_y=self.map_start.y
+                winning_y=self.map_start.y,
+                winning_area_name=self.map_start.area.name
             )
         )
         ClientManager().delete_client(self._client.id)
