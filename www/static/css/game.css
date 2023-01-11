@@ -11,7 +11,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    /* padding: 10px; */
+    padding-bottom: 15px;
     z-index: 1;
 }
 
@@ -23,16 +23,6 @@
 }
 .game-block-rounded:hover {
     opacity: 1.0;
-}
-
-.grid-col-left {
-    text-align: right;
-}
-.grid-col-center {
-    text-align: center;
-}
-.grid-col-right {
-    text-align: left;
 }
 
 #map-img {
@@ -56,49 +46,24 @@
   pointer-events: none;
 }
 
-
 #button-game-container-enlarge {
+    text-align: center;
     font-size: 2rem;
     font-weight: bolder;
-    padding-right: 15px;
-}
-
-/* #game-container {
-    background-color: rgba(100, 100, 100, 0.5);
-    width: var(--game-container-width-current);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    overflow-x: hidden;
-    display: inline-flex;
-    flex-direction: column;
-    opacity: 0.6;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 30px;
-    backdrop-filter: blur(2px);
-}
-
-#game-container:hover {
-    opacity: 1.0;
-}
-
-#game-grid {
-    text-align: center;
-    width: 100%;
-    padding: 0;
     margin: 0;
+    padding-right: 20px;
 }
 
-
-
-.grid-col-left {
-    text-align: right;
+#button-back-to-start {
+    margin-left: 15px;
 }
-.grid-col-center {
-    text-align: center;
+
+#button-guess {
+    margin-right: 15px;
 }
-.grid-col-right {
-    text-align: left;
-} */
+
+.game-guess-btn {
+    font-size: 2rem;
+    font-weight: bolder;
+    color: #FFF;
+}

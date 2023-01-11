@@ -51,7 +51,7 @@ export default class BackgroundMap {
             let column = this.backgroundGridBody.appendChild(document.createElement("tr"));
             for (let x = this.backgroundMinX; x <= this.backgroundMaxX; x++) {
                 let cell = document.createElement("td");
-                cell.id = `cell${x}${y}`;
+                cell.id = `cellX${x}Y${y}`;
                 cell.title = `${x}:${y}`;
                 cell.setAttribute("cell-x", x);
                 cell.setAttribute("cell-y", y);
@@ -133,20 +133,27 @@ export default class BackgroundMap {
         // Application du CSS
         this.selectedCell.classList.add("cell-selected");
         this.selectedCell.appendChild(this.cellIconGuess);
+    }
 
-        // Ecriture des coordonnées dans les inputs
-        this.game.setCoordinates(
-            event.target.getAttribute("cell-x"),
-            event.target.getAttribute("cell-y")
-        );
+    setDblClickDisabled(state) {
+        // Active/Désactive le double click sur les cellules
+        if (state) {
+            this.backgroundGridBody.style.pointerEvents = "none";
+        }
+        else {
+            
+            this.backgroundGridBody.style.pointerEvents = "auto";
+        }
     }
 
     setWinningCell(x, y) {
-        const winningCell = this.backgroundGridBody.querySelector(`#cell${x}${y}`)
+        const winningCell = this.backgroundGridBody.querySelector(`#cellX${x}Y${y}`)
 
         // Suppression du style si la cellule était sélectionnée
         winningCell.classList.remove("cell-selected");
-        winningCell.removeChild(this.cellIconGuess);
+        if (winningCell.contains(this.cellIconGuess)) {
+            winningCell.removeChild(this.cellIconGuess);
+        }
 
         // Application du style de cellule gagnante
         winningCell.classList.add("cell-winning");
@@ -180,7 +187,6 @@ export default class BackgroundMap {
         // svgG.appendChild(svgPath);
         // svg.appendChild(svgG);
         // this.backgroundContainer.append(svg);
-
 
     }
 }
