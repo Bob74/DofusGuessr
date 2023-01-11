@@ -36,21 +36,32 @@ export default class BackgroundMap {
         this.backgroundMinY = -120;
         this.backgroundMaxY = 48;
 
+        this.cellIconGuess = document.createElement('i');
+        this.cellIconGuess.classList.add("bi-question-lg")
+        this.cellIconGuess.classList.add("cell-icon")
+
+        this.cellIconWin = document.createElement('i');
+        this.cellIconWin.classList.add("bi-check-lg")
+        this.cellIconWin.classList.add("cell-icon")
+
         this.backgroundGridBody = document.createElement("tbody");
 
+        // Création des cellules de la grille
         for (let y = this.backgroundMinY; y <= this.backgroundMaxY; y++) {
             let column = this.backgroundGridBody.appendChild(document.createElement("tr"));
             for (let x = this.backgroundMinX; x <= this.backgroundMaxX; x++) {
                 let cell = document.createElement("td");
-                cell.id = `cell${x}${y}`;
+                cell.id = `cellX${x}Y${y}`;
                 cell.title = `${x}:${y}`;
                 cell.setAttribute("cell-x", x);
                 cell.setAttribute("cell-y", y);
+                cell.classList.add("cell-base");
                 cell.addEventListener("dblclick", e => this.onCellDblClicked(e));
                 column.appendChild(cell);
             }
         }
 
+        // Ajout de la grille aux conteneurs
         this.backgroundGrid.appendChild(this.backgroundGridBody);
         this.backgroundContainer.appendChild(this.backgroundGrid);
     }
@@ -110,33 +121,43 @@ export default class BackgroundMap {
             "y": cellY
         }));
 
-        // Suppression du CSS de cellule selectionnée
+        // Suppression du CSS de cellule précédente
         if (this.selectedCell) {
-            this.selectedCell.classList.remove("selected-cell");
-            this.selectedCell.innerHTML = "";
+            this.selectedCell.classList.remove("cell-selected");
+            this.selectedCell.removeChild(this.cellIconGuess);
         }
         
         // Stockage de la cellule selectionnée
         this.selectedCell = event.target;
         
         // Application du CSS
-        this.selectedCell.classList.add("selected-cell");
-        this.selectedCell.innerHTML = "?";
+        this.selectedCell.classList.add("cell-selected");
+        this.selectedCell.appendChild(this.cellIconGuess);
+    }
 
-        // Ecriture des coordonnées dans les inputs
-        this.game.setCoordinates(
-            event.target.getAttribute("cell-x"),
-            event.target.getAttribute("cell-y")
-        );
+    setDblClickDisabled(state) {
+        // Active/Désactive le double click sur les cellules
+        if (state) {
+            this.backgroundGridBody.style.pointerEvents = "none";
+        }
+        else {
+            
+            this.backgroundGridBody.style.pointerEvents = "auto";
+        }
     }
 
     setWinningCell(x, y) {
-        const winningCell = this.backgroundGridBody.querySelector(`#cell${x}${y}`)
+        const winningCell = this.backgroundGridBody.querySelector(`#cellX${x}Y${y}`)
 
-        // Application du CSS
-        winningCell.classList.remove("selected-cell");
-        winningCell.classList.add("winning-cell");
-        winningCell.innerHTML = "X";
+        // Suppression du style si la cellule était sélectionnée
+        winningCell.classList.remove("cell-selected");
+        if (winningCell.contains(this.cellIconGuess)) {
+            winningCell.removeChild(this.cellIconGuess);
+        }
+
+        // Application du style de cellule gagnante
+        winningCell.classList.add("cell-winning");
+        winningCell.appendChild(this.cellIconWin);
 
         // Scroll jusqu'à la cellule gagnante
         winningCell.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
@@ -166,7 +187,6 @@ export default class BackgroundMap {
         // svgG.appendChild(svgPath);
         // svg.appendChild(svgG);
         // this.backgroundContainer.append(svg);
-
 
     }
 }

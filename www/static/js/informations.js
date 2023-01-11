@@ -8,7 +8,6 @@ export default class Informations {
 
         this.informationsContainer = document.querySelector(`#${informationsContainerId}`);
         this.timerText = this.informationsContainer.querySelector("#informations-timer");
-        
     }
 
     /*
@@ -27,4 +26,5 @@ export default class Informations {
         const s = Math.floor(seconds % 60).toString().padStart(2,'0');
         return `${m}:${s}`;
     }
+
 }

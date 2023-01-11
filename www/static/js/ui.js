@@ -22,6 +22,7 @@ export default class Ui {
         this.gameContainer.addEventListener('mouseout', this.enableDragscroll);
     }
 
+
     /*
     * Désactivation du DragScroll sur la page entière.
     */
@@ -51,13 +52,15 @@ export default class Ui {
 
     setMaximizedGame() {
         this.rootCss.style.setProperty('--game-container-width-current', this.gameContainerWidthMax);
-        this.gameContainerButtonEnlarge.value = "➖";
+        this.gameContainerButtonEnlarge.classList.remove("bi-arrows-angle-expand")
+        this.gameContainerButtonEnlarge.classList.add("bi-arrows-angle-contract")
         this.isGameContainerEnlarged = true;
     }
     
     setMinimizedGame() {
         this.rootCss.style.setProperty('--game-container-width-current', this.gameContainerWidthMin);
-        this.gameContainerButtonEnlarge.value = "➕";
+        this.gameContainerButtonEnlarge.classList.add("bi-arrows-angle-expand")
+        this.gameContainerButtonEnlarge.classList.remove("bi-arrows-angle-contract")
         this.isGameContainerEnlarged = false;
     }
 

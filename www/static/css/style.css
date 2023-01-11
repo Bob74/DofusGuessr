@@ -1,0 +1,40 @@
+
+:root {
+    scroll-behavior: initial; /* Fix Bootstrap qui empêche le dragscroll */
+    --btn-dofus: sienna;
+    --btn-dofus-hover: rgb(212, 110, 62);
+    --btn-dofus-disabled: rgb(95, 77, 69);
+    --btn-hint: rgb(150, 0, 150);
+    --btn-hint-hover: rgb(173, 0, 173);
+    --btn-hint-disabled: rgb(92, 78, 92);
+}
+
+/* h1 {
+    text-shadow: rgb(0, 0, 0) 2px 2px 2px;
+} */
+
+body {
+    background-color: #E8DBC8;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: initial;
+    -webkit-overflow-scrolling: touch;
+}
+
+.unselectable {
+    -drag: none;  
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Permet de masquer des éléments flex */
+[hidden] {
+    display: none !important;
+} 
+

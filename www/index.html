@@ -1,103 +1,175 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>DofusGuessr</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Luckiest+Guy"/>
-        <link rel="stylesheet" href="static/css/styles.css"/>
-        <link rel="stylesheet" href="static/css/startgame.css"/>
-        <link rel="stylesheet" href="static/css/backgroundMap.css"/>
-        <link rel="stylesheet" href="static/css/game.css"/>
-        <link rel="stylesheet" href="static/css/guess.css"/>
-        <link rel="stylesheet" href="static/css/hints.css"/>
-        <link rel="stylesheet" href="static/css/informations.css"/>
-        <link rel="stylesheet" href="static/css/endgame.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="static/css/bootstrap.min.css">
+        <link rel="stylesheet" href="static/css/style.css">
+        <link rel="stylesheet" href="static/css/backgroundMap.css">
+        <link rel="stylesheet" href="static/css/startgame.css">
+        <link rel="stylesheet" href="static/css/game.css">
+        <link rel="stylesheet" href="static/css/hints.css">
+        <link rel="stylesheet" href="static/css/informations.css">
+        <link rel="stylesheet" href="static/css/endgame.css">
     </head>
-    <body class="dragscroll">
+    <body class="dragscroll" data-bs-theme="dark">
 
-        <div id="startgame-container" class="unselectable">
-            <img id="map-img" src="static/img/gfx/logo.png" style="width: 923px;"/>
-            <p>Partie de GeoGuessr sur Dofus Retro</p>
-            <p>5 minutes de temps</p>
-            <input id="button-start" type="button" value="Démarrer !"/>
+        <!-- Fenêtre de fin de jeu avec le récap de la partie -->
+        <div id="endgame-modal" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-4">Fin de partie</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="endgame-message-l1">Score final : 0 (Temps restant : 00:00:00)</p>
+                        <p id="endgame-message-l2">La bonne réponse était : x, y</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button id="button-restart" type="button" class="btn btn-primary"><span class="bi bi-bootstrap-reboot"></span> Recommencer</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div id="endgame-container" class="unselectable" hidden>
-            <table id="endgame-grid">
-                <tbody>
-                    <tr>
-                        <td><span id="endgame-message-l1" class="endgame-messages"></span></td>
-                    </tr>
-                    <tr>
-                        <td><span id="endgame-message-l2" class="endgame-messages"></span><input id="button-restart" type="button" value="♻️&#13;&#10;Recommencer"/></td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Start game / Page d'accueil -->
+        <div id="startgame-container" class="container-fluid unselectable">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <img id="map-img" class="startgame-logo" src="static/img/gfx/logo.png"/>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto" style="height: 10vh;"></div>
+            </div>
+            <div class="container-sm startgame-block-rounded">
+                <div class="row justify-content-sm-center">
+                    <div class="col-sm-auto">
+                        <h1>Partie de DofusGuessr sur la map Dofus Retro</h1>
+                    </div>
+                </div>
+                <div class="row justify-content-xl-left">
+                    <div class="col-xl-auto">
+                        <ul class="startgame-list">
+                            <li><span class="bi bi-alarm startgame-icon"></span>5 minutes de temps</li>
+                            <li><span class="bi bi-hand-index startgame-icon"></span>Double clic sur la carte pour choisir une position</li>
+                            <li><span class="bi bi-flag startgame-icon"></span>La position n'est validée qu'après appuis sur le bouton <button class="btn btn-success"><span class="bi bi-geo"></span> Guess</button> ou à la fin du temps de jeu</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row justify-content-sm-center">
+                    <div class="col-sm-auto">
+                        <button id="button-start" class="btn btn-dark btn-dofus" type="button">Démarrer !</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div id="background-container" hidden>
-            <table id="background-grid" class="unselectable"></table>
-            <img id="background-map" class="unselectable">
+        <!-- Fond de la page de jeu -->
+        <div id="background-container" class="unselectable" hidden>
+            <img id="background-map">
+            <table id="background-grid"></table>
         </div>
         
-        <div id="hints-container" hidden>
-            <h1 class="unselectable">Indices</h1>
-            <div id="hints-buttons-container" class="unselectable">
-                <input id="button-hint-area-name" class="hints-buttons" type="button" value="Zone (500pts)"/>
-                <input id="button-hint-subarea" class="hints-buttons" type="button" value="Sous-zone (1000pts)" disabled/>
-                <p id="hint-area-name" hidden="true">Zone de départ : </p>
+        <!-- Block indices -->
+        <div id="hints-container" class="hints-block-rounded unselectable" hidden>
+            <h1>Indices</h1>
+            <div class="d-grid gap-2 d-md-block">
+                <button id="button-hint-area-name" class="btn btn-hint" type="button">Zone <span class="badge text-bg-success">500pts</span></button>
+                <button id="button-hint-subarea-name" class="btn btn-hint" type="button" disabled>Sous-zone <span class="badge text-bg-success">1000pts</span></button>
             </div>
         </div>
 
-        <div id="game-container" hidden>
-            <table id="game-grid" class="unselectable">
-                <tbody>
-                    <tr>
-                        <td class="grid-col-left"></td>
-                        <td class="grid-col-center"><input id="button-up" type="button" value="⬆"/></td>
-                        <td style="text-align: right;"><input id="button-game-container-enlarge" type="button" title="Agrandir" value="➕"/></td>
-                    </tr>
-                    <tr>
-                        <td class="grid-col-left"><input id="button-left" type="button" value="⬅"/></td>
-                        <td class="grid-col-center">
-                            <img id="map-img" src="static/img/gfx/book.png"/>
-                        </td>
-                        <td class="grid-col-right"><input id="button-right" type="button" value="➡"/></td>
-                    </tr>
-                    <tr>
-                        <td class="grid-col-left"></td>
-                        <td class="grid-col-center"><input id="button-down" type="button" value="⬇"/></td>
-                        <td style="text-align: right;"></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div id="guess-container" class="unselectable">
-                <table id="guess-grid">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input id="button-back-to-start" type="button" title="Retour au départ" value="🔙"/>
-                            </td>
-                            <td>
-                                <span id="guess-x-text">X </span><input id="guess-x-input" class="guess-input" type="number" disabled/>
-                                <span id="guess-y-text">Y </span><input id="guess-y-input" class="guess-input" type="number" disabled/>
-                                <input id="button-guess" type="button" value="Guess ! 🚩"/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- Block endgame -->
+        <div id="endgame-container" hidden>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 text-center">
+                    <button id="button-endgame-infos" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#endgame-modal" disabled>
+                        <span class="bi bi-info-circle"></span> Récapitulatif de fin de partie
+                    </button>
+                </div>
+                <div class="col-md-4"></div>
             </div>
         </div>
 
-        <div id="informations-container" class="unselectable" hidden>
+        <!-- Block informations -->
+        <div id="informations-container" class="informations-block-rounded unselectable" hidden>
             <h1>Informations</h1>
-            <p class="informations-text">Carte : Dofus Retro</p>
-            <span class="informations-text">Temps restant : </span><span id="informations-timer" class="informations-text">00:00</span>
+            <div class="row justify-content-xl-left">
+                <div class="col-xl-auto">
+                    <ul class="informations-list">
+                        <li><span class="bi bi-globe-americas informations-icon"></span> Carte : Dofus Retro</li>
+                        <li><span class="bi bi-alarm informations-icon"></span> Temps restant : <span id="informations-timer">00:00</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <!-- <button id="button-informations-endgame" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#endgame-modal" disabled>
+                        <span class="bi bi-info-circle"></span> Récapitulatif de fin de partie
+                    </button> -->
+                </div>
+            </div>
         </div>
 
-        <script src="static/js/node_modules/dragscroll/dragscroll.js"></script>
-        <script type="module" src="static/js/script.js"></script>
+        <!-- Block jeu -->
+        <div id="game-container" class="container-sm game-block-rounded unselectable" hidden>
+            <!-- Partie déplacement et image à retrouver -->
+            <div class="row align-items-center g-0">
+                <div class="col-sm-2">
 
+                </div>
+                <div class="col-sm-8 text-center">
+                    <span id="button-up" class="bi-chevron-compact-up game-btn"></span>
+                </div>
+                <div class="col-sm-2 text-end">
+                    <span id="button-game-container-enlarge" class="bi bi-arrows-angle-expand game-btn "></span>
+                </div>
+            </div>
+            <div class="row align-items-center g-0">
+                <div class="col-sm-2 text-end">
+                    <span id="button-left" class="bi-chevron-compact-left game-btn"></span>
+                </div>
+                <div class="col-sm-8 text-center">
+                    <img id="map-img" src="static/img/gfx/book.png" class="unselectable"/>
+                </div>
+                <div class="col-sm-2 text-start">
+                    <span id="button-right" class="bi bi-chevron-compact-right game-btn"></span>
+                </div>
+            </div>
+            <div class="row align-items-center g-0">
+                <div class="col-sm-2">
+
+                </div>
+                <div class="col-sm-8 text-center">
+                    <span id="button-down" class="bi bi-chevron-compact-down game-btn"></span>
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-sm-3 text-start">
+                    <button id="button-back-to-start" class="bi bi-rewind btn btn-primary game-guess-btn"></button>
+                </div>
+                <div class="col-sm-3 text-center">
+                    
+                </div>
+                <div class="col-sm-6 text-end">
+                    <button id="button-guess" class="bi bi-geo btn btn-success game-guess-btn">
+                        Guess
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script src="static/js/bootstrap.bundle.min.js"></script>
+        <script src="static/js/dragscroll/dragscroll.js"></script>
+        <script type="module" src="static/js/script.js"></script>
     </body>
 </html>

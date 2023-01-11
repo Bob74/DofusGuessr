@@ -1,48 +1,10 @@
 
+.modal-body > p {
+    font-size: 1.25rem;
+}
+
 #endgame-container {
     position: fixed;
-    text-align: center;
     width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 100;
-}
-
-#endgame-grid {
-    background-color: #000000C0;
-    position: fixed;
-    text-align: center;
-    width: 100%;
-    top: 33%;
-}
-
-#endgame-grid > tbody > tr {
-    font-family: "Luckiest Guy", cursive;
-}
-
-#endgame-grid > tbody > tr > td {
-    height: 64px;
-}
-
-.endgame-messages {
-    vertical-align: middle;
-    color: white;
-    width: 100%;
-    height: 100%; 
-}
-
-#endgame-message-l1 {
-    font-size: 36pt;
-}
-
-#endgame-message-l2 {
-    font-size: 20pt;
-}
-
-#button-restart {
-    font-family: "Luckiest Guy", cursive;
-    vertical-align: middle;
-    height: 100%;
-    margin: 10px;
+    top: 15px;
 }
